@@ -147,8 +147,73 @@ OSI参考模型：应用层、表示层、会话层、传输层、网络层、�
     * HTTP/2 允许服务器未经请求，主动向客户端发送资源；
     * 通过推送那些服务器任务客户端将会需要的内容到客户端的缓存中，避免往返的延迟
 
+#### http报文详解
+##### 1, 请求报文
+
+一个HTTP请求报文由请求行（request line）、请求头部（header）、空行和请求数据4个部分组成；
+* 请求行
+    - 由请求方法字段、URL字段和HTTP协议字段3个字段组成，它们由空格分隔；
+    - 例如，GET /index.html HTTP/1.1。
+    - HTTP协议的请求方法有GET、POST、HEAD、PUT、DELETE、OPTIONS、TRACE、CONNECT。
+* 请求头部
+    - 请求头部由关键字/值对组成，每行一对，关键字和值用英文冒号“:”分隔。
+    - 请求头部通知服务器有关于客户端请求的信息；
+    - 常用的请求头：
+
+        1. Accept 设置接受的内容类型Accept: text/plain;
+        2. Accept-Charset 设置接受的字符编码:Accept-Charset: utf-8;
+        3. Accept-Encoding 设置接受的编码格式:Accept-Encoding: gzip, deflate;
+        4. Accept-Language 设置接受的语言:Accept-Language: en-US;
+        5. Cache-Control 设置请求响应链上所有的缓存机制必须遵守的指令:Cache-Control: no-cache;
+        6. Connection 设置当前连接和hop-by-hop协议请求字段列表的控制选项:Connection: keep-alive;
+        7. Content-Length 设置请求体的字节长度:Content-Length: 348;
+        8. Content-Type 设置请求体的MIME类型（适用POST和PUT请求）:Content-Type: application/x-www-form-urlencoded;
+        9. Cookie 设置服务器使用Set-Cookie发送的http cookie:Cookie: $Version=1; Skin=new;;
+        10. Host 设置服务器域名和TCP端口号，如果使用的是服务请求标准端口号，端口号可以省略:Host: en.wikipedia.org:8080;
+        11. Origin 标识跨域资源请求（请求服务端设置Access-Control-Allow-Origin响应字段）:Origin: http://www.example-social-network.com;
+        12. Expires 设置响应体的过期时间:Expires: Thu, 01 Dec 1994 16:00:00 GMT;
+        13. ETag 特定版本资源的标识符，通常是消息摘要:ETag: "737060cd8c284d8af7ad3082f209582d";
+        14. Last-Modified 设置请求对象最后一次的修改日期:Last-Modified: Tue, 15 Nov 1994 12:45:26 GMT;
+* 空行
+    - 最后一个请求头之后是一个空行，发送回车符和换行符，通知服务器以下不再有请求头。
+
+* 请求主体（数据）
+    - 请求数据不在GET方法中使用，而是在POST方法中使用。POST方法适用于需要客户填写表单的场合。与请求数据相关的最常使用的请求头是Content-Type和Content-Length。
+
+##### 2, 响应报文
+HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行、响应正文。
+* 状态行
+    - 格式：服务器HTTP协议的版本 响应状态代码 状态代码的文本描述；
+    - 状态代码由三位数字组成，第一个数字定义了响应的类别，且有五种可能取值：
+        * 1xx：指示信息--表示请求已接收，继续处理。
+        * 2xx：成功--表示请求已被成功接收、理解、接受。
+        * 3xx：重定向--要完成请求必须进行更进一步的操作。
+        * 4xx：客户端错误--请求有语法错误或请求无法实现。
+        * 5xx：服务器端错误--服务器未能实现合法的请求。
+
+    - 常见状态代码：
+        * 200 OK ：表示请求成功 一切正常
+        * 301 Moved Permanently：重定向，客户请求的文档在其他地方，新的URL在Location头中给出，浏览器应该自动地访问新的URL
+        * 302 Found：临时重定向，类似于301，但新的URL应该被视为临时性的替代，而不是永久性的。
+        * 304 Not Modified：客户端有缓冲的文档并发出了一个条件性的请求。服务器告诉客户，原来缓冲的文档还可以继续使用。
+        * 400 Bad Request：请求出现语法错误。
+        * 403 Forbidden：资源不可用。
+        * 404 Not Found：无法找到指定位置的资源。
+        * 405 Method Not Allowed：请求方法（GET、POST、HEAD、Delete、PUT、TRACE等）对指定的资源不适用。
+        * 500 Internal Server Error：服务器遇到了意料不到的情况，不能完成客户的请求。
+        * 501 Not Implemented：服务器不支持实现请求所需要的功能
+
 ### 常见问题
+* 一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？
+    https://segmentfault.com/a/1190000014872028
+
+* 304 缓存的原理
+    - 服务器首先产生ETag，服务器可在稍后使用它来判断页面是否已经被修改。本质上，客户端通过将该记号传回服务器要求服务器验证其（客户端）缓存
+    - 304是HTTP状态码，服务器用来标识这个文件没修改，不返回内容，浏览器在接收到个状态码后，会使用浏览器已缓存的文件
+    - 客户端请求一个页面（A）。 服务器返回页面A，并在给A加上一个ETag。 客户端展现该页面，并将页面连同ETag一起缓存。 客户再次请求页面A，并将上次请求时服务器返回的ETag一起传递给服务器。 服务器检查该ETag，并判断出该页面自上次客户端请求之后还未被修改，直接返回响应304（未修改——Not Modified）和一个空的响应体
+    -  认识更多--浏览器缓存篇: https://segmentfault.com/a/1190000014888462
 
 ### 参考资料
 * https://github.com/ReactFullStack/tech-documents/blob/master/basic/http/index.md
 * https://segmentfault.com/a/1190000015316332
+* https://segmentfault.com/a/1190000015017908
