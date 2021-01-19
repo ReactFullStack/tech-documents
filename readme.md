@@ -3,13 +3,38 @@
 ### 基础知识
 * Git
 * 数据结构和算法
-* [HTTP/HTTPS](/basic/http/index.md)
 * 设计模式
 * Internet
+    - [网络基本原理](/basic/internet/basic.md)
+    - 浏览器工作原理
+    - DNS
+    - 域名
+    - FTP
+    - SSL
+* [HTTP/HTTPS](/basic/http/index.md)
 * API
+    - Authentication
+        * OAuth
+        * Basic Authentication
+        * Token Authentication
+        * JWT
+    - REST
 * 设计开发思想
+    - 架构
+        * 微服务
+        * SOA
+        * Serverless
+    - SOLID
+    - KISS
+    - YAGNI
+    - DRY
 * 网络安全
+    - HTTPS
+    - CORS
+    - Content  Security Policy
 * 包管理
+    - npm
+    - yarn
 
 ### 前端
 * HTML
