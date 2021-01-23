@@ -2,6 +2,7 @@
 
 ### 基础知识
 * Git
+    - [基本用法](/basic/git/index.md)
 * 数据结构和算法
 * 设计模式
 * Internet
