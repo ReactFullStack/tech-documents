@@ -43,7 +43,7 @@
 * CSS 预处理
 * 项目构建
 * 框架
-    - [redux](/frontEnd/frameword/redux/index.md)
+    - [redux](/frontEnd/framework/redux/index.md)
 * TypeScript
 
 ### 后端
