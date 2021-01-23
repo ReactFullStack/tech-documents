@@ -60,6 +60,8 @@
 ###  网络分层
 ![网络分层](Internet-layer.png)
 
+![网络分层](Internet-layer1.png)
+
 #### 1、 应用层：为操作系统或网络应用程序提供访问网络服务的接口。   
 
 应用层任务是通过应用进程间的交互来完成特定网络应用。
@@ -125,6 +127,7 @@
     URI的作用像身份证号一样，URL的作用更像家庭住址一样。URL是一种具体的URI，它不仅唯一标识资源，而且还提供了定位该资源的信息。
 
 ## 参考资料
+* https://blog.csdn.net/m0_37568814/article/details/81018769
 * https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91/199186
 * https://cn.udacity.com/course/networking-for-web-developers--ud256
 * https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/
