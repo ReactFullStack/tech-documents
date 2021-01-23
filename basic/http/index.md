@@ -227,6 +227,40 @@ HTTP响应也由四个部分组成，分别是：状态行、消息报头、空�
     - 客户端请求一个页面（A）。 服务器返回页面A，并在给A加上一个ETag。 客户端展现该页面，并将页面连同ETag一起缓存。 客户再次请求页面A，并将上次请求时服务器返回的ETag一起传递给服务器。 服务器检查该ETag，并判断出该页面自上次客户端请求之后还未被修改，直接返回响应304（未修改——Not Modified）和一个空的响应体
     -  认识更多--浏览器缓存篇: https://segmentfault.com/a/1190000014888462
 
+* 简单介绍下HTTP协议中缓存的处理流程?
+在HTTP协议中缓存的应用流程为：
+
+    - 1、当浏览器发起请求，会先查询Cache-Control判断内容是否过期，未过期则直接读取浏览器端的缓存信息，不发送HTTP请求，若过期进入第2步；
+
+    - 2、此时浏览器缓存过期，判断上次返回头文件中是否含有Etag信息，如果有则带上If-None-Match字段信息发送请求给服务器，服务端判断Etag未修改则返回304，如果修改则返回200，否则进入第3步；
+
+    - 3、此时上次返回的头文件中没有Etag信息，此时判断上次返回头文件中是否含有Last-Modifed信息，有则带上
+If-Modified-Since字段信息发送请求，服务端判断Last-Modified失效则返回200， 有效则返回304，否则进入第4步；
+
+    - 4、此时Etag和Last-Modified都不存在，则直接向服务器请求内容。
+
+    在缓存的应用流程中，涉及到的HTTP头部包含：
+    
+    Expires（过期时间） 属性是HTTP控制缓存的基本手段
+    
+    Cache-Control响应头信息，让网站的发布者可以更全面的控制他们的内容 （包含max-age、max-stale、min-fresh等）
+    
+    ETag 是实现与最近修改数据检查同样的功能的另一种方法：没有变化时不重新下载数据
+    
+    last-modified 最近修改
+
+* HTTP的长连接和短连接?
+
+    HTTP的长连接和短连接本质上是TCP长连接和短连接。HTTP属于应用层协议.
+    
+    短连接:浏览器和服务器每进行一次HTTP操作，就建立一次连接，但任务结束就中断连接。
+    
+    长连接:当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的 TCP连接不会关闭，如果客户端再次访问这个服务器上的网页，会继续使用这一条已经建立的连接。Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个时间。实现长连接要客户端和服务端都支持长连接。
+    
+    TCP短连接: client向server发起连接请求，server接到请求，然后双方建立连接。client向server发送消息，server回应client，然后一次读写就完成了，这时候双方任何一个都可以发起close操作，不过一般都是client先发起 close操作.短连接一般只会在client/server间传递一次读写操作
+    
+    TCP长连接: client向server发起连接，server接受client连接，双方建立连接。Client与server完成一次读写之后，它们之间的连接并不会主动关闭，后续的读写操作会继续使用这个连接。
+     
 ## 参考资料
 * https://github.com/ReactFullStack/tech-documents/blob/master/basic/http/index.md
 * https://segmentfault.com/a/1190000015316332
