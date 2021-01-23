@@ -6,7 +6,7 @@
 * 设计模式
 * Internet
     - [网络基本原理](/basic/internet/basic.md)
-    - 浏览器工作原理
+    - [浏览器工作原理](/basic/internet/browser.md)
     - DNS
     - 域名
     - FTP
