@@ -236,6 +236,30 @@ https://www.runoob.com/git/git-workspace-index-repo.html
 
     索引index文件是对工作树进行代码修改后，通过add命令更新索引文件；GIT系统通过索引index文件生成tree对象；
 
+- git merge 和 git rebase 的区别？
+
+    原始分支：
+    ![image](origin.png)
+    将master合并到feature
+
+    1. 使用merge合并后：
+    ![image](merge.png)
+
+    - 特点：自动创建一个新的commit, 如果合并的时候遇到冲突，仅需要修改后重新commit
+    
+    - 优点：将commit的实际情况进行记录，便于以后查看
+    
+    - 缺点：由于每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，如果commit频繁，这样会使得feature分支很杂乱，这时可以考虑使用rebase来进行合并处理。   
+
+    2. 使用rebase合并后：
+    ![image](rebase.png)
+
+    - 特点：会合并之前的commit历史
+
+    - 优点：得到更简洁的项目历史，去掉了merge commit
+
+    - 缺点：如果合并出现代码问题不容易定位，因为re-write了history
+
 ## 参考资料
 - https://www.runoob.com/git/git-tutorial.html
 
