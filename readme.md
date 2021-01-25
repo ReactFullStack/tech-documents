@@ -6,10 +6,7 @@
 * 设计模式
 * Internet
     - [网络基本原理](/basic/internet/basic.md)
-    - DNS
-    - 域名
-    - FTP
-    - SSL
+    - DNS，域名，FTP，SSL
 * [HTTP/HTTPS](/basic/http/index.md)
 * [浏览器工作原理](/basic/browser/index.md)
 * API
