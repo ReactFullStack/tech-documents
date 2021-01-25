@@ -39,7 +39,7 @@ https://www.runoob.com/git/git-workspace-index-repo.html
 
 - - 查看分支
 
-    查看所有分支：git branch -av
+    查看所有分支：git branch -a
 
     查看本地分支：git branch
 
@@ -58,6 +58,8 @@ https://www.runoob.com/git/git-workspace-index-repo.html
 - - 删除分支
 
     删除本地分支：普通删除 git branch -d < branch > / 强制删除 git branch -D < branch >
+    
+    删除远程分支：git push origin --delete <branch>
 
 - 标签
 - - 创建标签
@@ -109,7 +111,7 @@ https://www.runoob.com/git/git-workspace-index-repo.html
 
     提交并添加描述信息：git commit -m "< message >"
 
-    修改最后一次提交：git commit --amend （修改最后一次提交（可以通过此命令将修改合并至最后一次提交），不要对已发布过的提交试用此命令）
+    修改最后一次提交：git commit --amend （修改最后一次提交（可以通过此命令将修改合并至最后一次提交），不要对已发布过的提交使用此命令）
 
 - 合并本地提交
 
