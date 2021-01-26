@@ -3,26 +3,15 @@
     - [npm简介](#npm简介) 
     - [package.json](#package)
     - [npm5新版功能特性解析](#npm5新版功能特性解析)
-    - 
-* [NPX](#npx)
+    - [NPX](#npx)
 * [YARN](#yarn)
+    - [yarn简介](#yarn简介)
+    - [配置](#配置)
 
 ## npm
-- [学习文档](https://javascript.ruanyifeng.com/nodejs/npm.html)
-
 ### npm简介
-- npm 是 Node.js 标准的软件包管理器。
-
-- 在 2017 年 1 月时，npm 仓库中就已有超过 350000 个软件包，这使其成为世界上最大的单一语言代码仓库，并且可以确定几乎有可用于一切的软件包。
-
-- 它起初是作为下载和管理 Node.js 包依赖的方式，但其现在也已成为前端 JavaScript 中使用的工具。
-
-### 下载
-- 安装所有依赖 `npm install`
-- 安装单个软件包 `npm install <package-name>`
-    --save 安装并添加条目到 package.json 文件的 dependencies
-    --save-dev 安装并添加条目到 package.json 文件的 devDependencies
-- 更新软件包 `npm update`
+- npm有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为npmjs.org。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。
+- npm不需要单独安装。在安装Node的时候，会连带一起安装npm。但是，Node附带的npm可能不是最新版本，最好用`npm install npm@latest -g`，更新到最新版本。
 
 ### 安装
 - 本地安装 `npm install lodash`
@@ -152,7 +141,7 @@
 ## yarn
 
 ### yarn简介
-Yarn 是 Facebook, Google, Exponent 和 Tilde 开发的一款新的 JavaScript 包管理工具。它的目的是解决使用 npm 面临的少数问题：
+- Yarn 是 Facebook, Google, Exponent 和 Tilde 开发的一款新的 JavaScript 包管理工具。它的目的是解决使用 npm 面临的少数问题：
 
 1. 安装的时候无法保证速度/一致性
 2. 安全问题，因为 npm 安装时允许运行代码
@@ -163,124 +152,86 @@ Yarn 是 Facebook, Google, Exponent 和 Tilde 开发的一款新的 JavaScript �
 2. npm全局安装 npm install -g yarn
 
 ### 常用命令
+- [使用方法](https://yarn.bootcss.com/docs/usage/)
 1. 开始一个新工程
-
     - yarn init 与 npm init 一样通过交互式会话创建一个 package.json
-    - yarn init # yarn
-    - npm init # npm
-
 2. 添加一个依赖
-
     - 通过 yarn add 添加依赖会更新 package.json 以及 yarn.lock 文件
-    
     - 开发环境
-    
         - yarn add <packageName> 依赖会记录在 package.json 的 dependencies 下 开发环境
-        - yarn add webpack@2.3.3 # yarn --save 是 yarn 默认的，默认记录在 package.json 中
-        - npm install webpack@2.3.3 --save # npm
-    
     - 生产环境
-        
-        - yarn add <packageName> --dev 依赖会记录在 package.json 的 devDependencies 下 生产环境
-        - yarn add webpack --dev # yarn 简写 -D
-        - npm install webpack --save-dev # npm
-    
+        - yarn add <packageName> --dev 依赖会记录在 package.json 的 devDependencies 下 生产环境  
     - 全局
-    
         - yarn global add <packageName> 全局安装依赖
-        - yarn global add webpack # yarn
-        - npm install webpack -g # npm
-
 3. 更新一个依赖
-
     - yarn upgrade 用于更新包到基于规范范围的最新版本
-    - yarn upgrade # 升级所有依赖项，不记录在 package.json 中
-    - npm update # npm 可以通过 ‘--save|--save-dev’ 指定升级哪类依赖
-    - yarn upgrade webpack # 升级指定包
-    - npm update webpack --save-dev # npm
-    - yarn upgrade --latest # 忽略版本规则，升级到最新版本，并且更新 package.json
-
 4. 移除一个依赖
-
     - yarn remove <packageName>
-    - yarn remove webpack # yarn
-    - npm uninstall webpack --save # npm 可以指定 --save | --save-dev
-
 5. 安装 package.json 中的所有文件
-
     - yarn 或者 yarn install
-    - yarn install # 或者 yarn 在 node_modules 目录安装 package.json 中列出的所有依赖
-    - npm install # npm
-    - yarn install 安装时，如果 node_modules 中有相应的包则不会重新下载 --force 可以强制重新下载安装
-    - yarn install --force # 强制下载安装
-    - npm install --force # npm
-
-6. 运行脚本
-    
+6. 运行脚本   
     - yarn run dev # yarn 执行 dev 对应的脚本 node app.js
-    - npm run # npm
-    - yarn start # yarn
-    - npm start # npm
-    - 与 npm 一样 可以有 yarn start 和 yarn test 两个简写的运行脚本方式
-
 7. 显示某个包信息
-
     - yarn info <packageName> 可以用来查看某个模块的最新版本信息
-    - yarn info webpack # yarn
-    - npm info webpack # npm
-    - yarn info webpack --json # 输出 json 格式
-    - npm info webpack --json # npm
-    - yarn info webpack readme # 输出 README 部分
-    - npm info webpack readme
-
 8. 列出项目的所有依赖
-
     - yarn list
-    - yarn list # 列出当前项目的依赖
-    - npm list # npm
-    - yarn list --depth=0 # 限制依赖的深度
-    - sudo yarn global list # 列出全局安装的模块
- 
 9. 管理 yarn 配置文件
-
     - yarn coinfig
     - yarn config set key value # 设置
-    - npm config set key value
     - yarn config get key # 读取值
-    - npm config get key
-    - yarn config delete key # 删除
-    - npm config delete key
-    - yarn config list # 显示当前配置
-    - npm config list
-    - yarn config set registry https://registry.npm.taobao.org # 设置淘宝镜像
-    - npm config set registry https://registry.npm.taobao.org # npm
-
 10. 缓存
-
     - yarn cache
     - sudo yarn cache list # 列出已缓存的每个包
     - sudo yarn cache dir # 返回 全局缓存位置
     - sudo yarn cache clean # 清除缓存
 
-### 混淆知识点
-1. yarn global
-    - 不像 npm 添加 -g 或 --global 可以进行全局安装，Yarn 使用的是 global 前缀。不过与 npm 类似，项目依赖不推荐全局安装。
-    - global 前缀只能用于 yarn add, yarn bin, yarn ls 和 yarn remove，除yarn add外，这些命令都和 npm 等效。
+### 配置
+#### package.json
+- package.json最重要的两个领域是 name和version，没有他们，你的包将无法安装。name和version字段用于共同创造一个独特的ID
+```javascript
+{
+  "name": "my-awesome-package"
+}
+// 软件包的名称。它在URL中使用，在命令行中作为参数使用，并作为内部的目录名称使用node_modules
 
-2. yarn install
-    - npm install 命令会根据 package.json 安装依赖以及允许你添加新的模块；
-    - yarn install 仅会按 yarn.lock 或 package.json 里面的依赖顺序来安装模块。
+1. yarn add [name]
+2. node_modules/[name]
+3. https://registry.npmjs.org/[name]/-/[name]-[version].tgz
+```
+- 规则
+    - 必须小于或等于214个字符（包括@scope/范围包）。
+    - 不得以点（.）或下划线（_）开头。
+    - 名称中不能有大写字母。
+    - 纠错
+    - 必须只使用网址安全的字符。
+    
+- 注意
+    - 不要使用与核心Node.js模块相同的名称
+    - 不要把js或node在名称中。
+    - 保持名称简短和描述性。你希望人们从名字上了解它是什么，但它也会用在require()通话中。
+    - 确保在注册表中没有具有相同名称的东西。
 
-3. yarn add [–dev]
-    - 与 npm install 类似，yarn add 允许你添加与安装模块，就像命令的名称一样，添加依赖意味着也会算定将依赖写入 package.json，类似 npm 的 --save 参数；
-    - Yarn 的 --dev参数则是添加开发依赖，类似 npm 的 --save-dev 参数。
+#### envvars
+- 定义的环境变量`process.env`允许您配置额外的Yarn特征
+    - process.env.CHILD_CONCURRENCY=#number#
+- 控制并行运行的子进程的数量以构建节点模块
+- 将此数字设置为1将导致节点模块按顺序构建，这可以避免使用node-gyp的窗口上的链接器错误。
 
-4. yarn licenses [ls|generate-disclaimer]
-    - npm 没有类似命令来方便编写自己的包。yarn licenses ls 列出所有已安装包的许可协议。
-    - yarn licenses generate-disclaimer 生成包含已安装包许可协议的免责声明。某些协议要求使用者必须在项目中包含该协议，这时候该命令将变得非常好用
+#### .yarnrc
+- 项目根目录下添加文件.yarnrc
 
-5. yarn upgrade
-    - 该命令会根据符合 package.json 设定的规则而不是 yarn.lock 定义的确切版本来将包更新到最新版本
+#### yarn.lock
+- 为了获得跨机器的一致安装，Yarn需要比您在配置中的依赖更多的信息package.json。Yarn需要存储每个依赖项的安装版本。为此，Yarn 在项目的根目录中使用一个文件yarn.lock
+- 由yarn管理
+    - 您的yarn.lock文件是自动生成的，应完全由Yarn处理。当您使用Yarn CLI添加/升级​​/删除依赖项时，它将自动更新您的yarn.lock文件。不要直接编辑这个文件，因为很容易破坏某些东西
+- 仅限当前包
+    - 在安装期间，Yarn只会使用顶层yarn.lock文件，并会忽略yarn.lock依赖项中存在的任何文件。顶层yarn.lock文件包含Yarn需要锁定整个依赖关系树中软件包版本的所有内容。
+- 检查到源代码管理
+    - 所有yarn.lock文件都应该检入源代码控制（例如git或mercurial）。这允许Yarn在所有机器上安装相同的精确依赖关系树，无论它是您的同事的笔记本电脑还是CI服务器。
+    - 框架和库作者也应该检查yarn.lock源代码管理。不要担心发布yarn.lock文件，因为它不会影响库的用户
+
+
+###
 
 ## NPM参考资料
 - [Javascript 标准参考教程 - package](https://javascript.ruanyifeng.com/nodejs/packagejson.html#toc1)
@@ -288,8 +239,9 @@ Yarn 是 Facebook, Google, Exponent 和 Tilde 开发的一款新的 JavaScript �
 
 ## YARN参考资料
 - [yarn出现的背景](https://cloud.tencent.com/developer/article/1694777)
-- [命令](https://classic.yarnpkg.com/en/docs/cli/global)
-- [yarnpkg](https://yarnpkg.com/cli/install)
+- [yarn-中文](https://cloud.tencent.com/developer/doc/1253)
+- [yarnpkg-英文](https://yarnpkg.com/cli/install)
+
 ## 常见问题
 - [Yarn vs npm](https://zhuanlan.zhihu.com/p/23493436)
-- [命令对比](https://www.jianshu.com/p/e7209ecc120d)
+- [命令对比](https://yarn.bootcss.com/docs/migrating-from-npm/#toc-cli-commands-comparison)
