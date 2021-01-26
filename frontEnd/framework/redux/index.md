@@ -8,7 +8,11 @@
         - [Store](#Store)
         - [Dispatch](#Dispatch)
         - [Selectors](#Selectors)
-    - [使用React Toolkit](#使用ReactToolkit)
+    - [基本的Redux数据流](#基本的Redux数据流)
+        - [创建一个新的React+Redux项目](#创建一个新的React+Redux项目)
+        - [创建Slice](#创建Slice)
+        - [展示Redux数据](#展示Redux数据)
+        - [添加新的Redux数据](#添加新的Redux数据)
 * [Antd框架](#Antd框架)
 * [常见问题](#常见问题)
 * [参考资料](#参考资料)  
@@ -99,35 +103,154 @@ const selectCounterValue = state => state.value
 const currentValue = selectCounterValue(store.getState())
 ```
 
-## 使用ReactToolkit
+## 基本的Redux数据流
 
-### Example
-```javascript
-import { createSlice, configureStore } from '@reduxjs/toolkit'
-const counterSlice = createSlice({
-    name: 'counter',
-    initialstate: {
-        value: 0
-    },
-    reducer: {
-        incremented: state => {
-            state.value += 1
-        },
-        decremented: state => {
-            state.value -= 1
+### 创建一个新的React+Redux项目
+1. 使用Create React App
+    ```
+    npx create-react-app my-app --template redux-typescript
+    ```
+2. [github](https://github.com/reduxjs/cra-template-redux)
+
+### 创建Slice
+1. We're going to use the Redux Toolkit `createSlice` function to make a reducer function that knows how to handle our posts data. Reducer functions need to have some initial data included so that the Redux store has those values loaded when the app starts up.
+
+    ```javascript
+    import { createSlice } from '@reduxjs/toolkit'
+
+    const initialState = [
+        { id: '1', title: 'First Post!', content: 'Hello!' },
+        { id: '2', title: 'Second Post', content: 'More text' }
+    ]
+
+    const postsSlice = createSlice({
+        name: 'posts',
+        initialState,
+        reducers: {}
+    })
+
+    export default postsSlice.reducer
+    ```
+2. Add its reducer function to our Redux store 
+
+    ```javascript
+    import { configureStore } from '@reduxjs/toolkit'
+
+    import postsReducer from '../features/posts/postsSlice'
+
+    export default configureStore({
+        reducer: {
+            posts: postsReducer
         }
+    })
+    ```
+
+### 展示redux数据
+Read data from the Redux store using the `useSelector` hook from the React-Redux library. 
+
+The "selector functions" that you write will be called with the entire Redux state object as a parameter, and should return the specific data that this component needs from the store.
+
+```javascript
+    import React from 'react'
+    import { useSelector } from 'react-redux'
+
+    export const PostsList = () => {
+        const posts = useSelector(state => state.posts)
+
+        const renderedPosts = posts.map(post => (
+            <article className="post-excerpt" key={post.id}>
+                <h3>{post.title}</h3>
+                <p className="post-content">{post.content.substring(0, 100)}</p>
+            </article>
+        ))
+
+        return (
+            <section className="posts-list">
+                <h2>Posts</h2>
+                {renderedPosts}
+            </section>
+        )
     }
-})
-
-export const { incremented, decremented } = counterSlice.actions
-
-const store = configureStore({
-    reducer: counterSlice.reducer
-})
-
-store.subscribe(() => console.log(store.getstate()))
-
-store.dispatch(incremented)
-store.dispatch(decremented)
 ```
 
+### 添加新的redux数据
+1. Inside of reducers, add a function named postAdded, which will receive two       arguments: the current state value, and the action object that was dispatched. 
+
+    When we write the postAdded reducer function, createSlice will automatically generate an "action creator" function with the same name. We can export that action creator and use it in our UI components to dispatch the action.
+    ```javascript
+    const postsSlice = createSlice({
+        name: 'posts',
+        initialState,
+        reducers: {
+            postAdded(state, action) {
+                state.push(action.payload)
+            }
+        }
+    })
+
+    export const { postAdded } = postsSlice.actions
+
+    export default postsSlice.reducer
+    ```
+2. Add a click handler that will dispatch the postAdded action creator and pass in a new post object containing the title and content the user wrote.
+
+    In order to dispatch actions from a component, we need access to the store's dispatch function. We get this by calling the useDispatch hook from React-Redux. We also need to import the postAdded action creator into this file.
+
+    ```javascript
+    import React, { useState } from 'react'
+    import { useDispatch } from 'react-redux'
+    import { nanoid } from '@reduxjs/toolkit'
+
+    import { postAdded } from './postsSlice'
+
+    export const AddPostForm = () => {
+        const [title, setTitle] = useState('')
+        const [content, setContent] = useState('')
+
+        const dispatch = useDispatch()
+
+        const onTitleChanged = e => setTitle(e.target.value)
+        const onContentChanged = e => setContent(e.target.value)
+
+        const onSavePostClicked = () => {
+            if (title && content) {
+                dispatch(
+                    postAdded({
+                        id: nanoid(),
+                        title,
+                        content
+                    })
+                )
+
+                setTitle('')
+                setContent('')
+            }
+        }
+
+        return (
+            <section>
+                <h2>Add a New Post</h2>
+                <form>
+                    <label htmlFor="postTitle">Post Title:</label>
+                    <input
+                        type="text"
+                        id="postTitle"
+                        name="postTitle"
+                        value={title}
+                        onChange={onTitleChanged}
+                    />
+                    <label htmlFor="postContent">Content:</label>
+                    <textarea
+                        id="postContent"
+                        name="postContent"
+                        value={content}
+                        onChange={onContentChanged}
+                    />
+                    <button type="button" onClick={onSavePostClicked}>
+                    Save Post
+                    </button>
+                </form>
+            </section>
+        )
+    }
+    ```
