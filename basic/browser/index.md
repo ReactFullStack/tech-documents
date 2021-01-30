@@ -91,7 +91,7 @@
 
 当页面上的所有的DOM、 样式、 脚本、图片都加载完成时, 会触发load事件
 
-DOMContentLoaded事件一定早于onload吗???
+[DOMContentLoaded事件一定早于onload吗???](https://cloud.tencent.com/developer/article/1124484)
 
 #### css加载与DOM树渲染
 css加载不会阻塞DOM树的解析, 加载过程中DOM正常构建, 但会阻塞render树的渲染, 因为render树的构建是依赖css.
@@ -209,7 +209,6 @@ absolute虽然可以脱离普通文档流, 当没有脱离默认复合层
 如果这个元素添加了硬件加速, 并且index层级比较低, 那么这个元素的后面其他元素, 会变成复合层渲染, 如果处理不当会引起极大的性能问题.
 
 简单来说, 如果A是一个复合图层, 并且B在A上面, 那么B也会被隐式转为一个复合图层.
-http://web.jobbole.com/83575/
 
 ## 常见问题
 * 常见的浏览器内核有哪些?
@@ -255,6 +254,8 @@ http://web.jobbole.com/83575/
 
 * 事件循环
 
+    见正文
 ## 参考资料
-* https://www.yuque.com/roadup/frontend/io2zp
+* https://www.yuque.com/roadup/frontend/io2zp2
 * https://www.html.cn/interview/14054.html
+* https://developer.mozilla.org/zh-CN/docs/Web/Performance/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86
