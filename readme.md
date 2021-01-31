@@ -26,8 +26,8 @@
     - YAGNI
     - DRY
 * 网络安全
-    - HTTPS
-    - CORS
+    - [HTTP/HTTPS](/basic/http/index.md)
+    - [CORS](/basic/security/cors.md)
     - Content  Security Policy
 * 包管理
     - npm
