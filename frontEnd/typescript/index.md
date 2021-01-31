@@ -17,6 +17,7 @@
     - [装饰器](#装饰器)
     - [Mixins](#Mixins)
     - [三斜线指令](#三斜线指令)
+    - [Javascript文件类型检查](#Javascript文件类型检查)
 * [规范](#规范)
 * [常见问题](#常见问题)
 * [参考资料](#参考资料)  
@@ -544,6 +545,10 @@ import $ from 'Jquery';
     
 https://www.tslang.cn/docs/handbook/module-resolution.html
 
+![image](1.webp)
+
+![image](2.webp)
+
 ### 命名空间
     > 主要用于组织代码，以便于在记录他们类型的同时还担心与其他对象命名冲突
 
@@ -774,66 +779,10 @@ class Greeter {
     }
 }
 ```
-
 ### Mixins
     > mixins是面向对象编程里比较重要的概念，根据功能定义多个可复用mixins类，使子类能够继承根据功能继承需要的mixins。scala里的trait即实现了混入并且应用广泛。typescript原生不支持混入，但可通过语法组合实现。
 
-```
-// Disposable Mixin
-class Disposable {
-    isDisposed: boolean;
-    dispose() {
-        this.isDisposed = true;
-    }
-
-}
-
-// Activatable Mixin
-class Activatable {
-    isActive: boolean;
-    activate() {
-        this.isActive = true;
-    }
-    deactivate() {
-        this.isActive = false;
-    }
-}
-
-// 因为用implements，需要在子类里实现所有接口定义。非常繁琐
-class SmartObject implements Disposable, Activatable {
-    constructor() {
-        setInterval(() => console.log(this.isActive + " : " + this.isDisposed), 500);
-    }
-
-    interact() {
-        this.activate();
-    }
-
-    // Disposable
-    isDisposed: boolean = false;
-    dispose: () => void;
-    // Activatable
-    isActive: boolean = false;
-    activate: () => void;
-    deactivate: () => void;
-}
-applyMixins(SmartObject, [Disposable, Activatable]);
-
-let smartObj = new SmartObject();
-setTimeout(() => smartObj.interact(), 1000);
-
-////////////////////////////////////////
-// In your runtime library somewhere
-////////////////////////////////////////
-
-function applyMixins(derivedCtor: any, baseCtors: any[]) {
-    baseCtors.forEach(baseCtor => {
-        Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
-            derivedCtor.prototype[name] = baseCtor.prototype[name];
-        });
-    });
-}
-```
+https://www.tslang.cn/docs/handbook/mixins.html
 
 ### 三斜线指令
     三斜线指令是包含单个XML标签的单行注释。 注释的内容会做为编译器指令使用。
@@ -844,6 +793,10 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
 2. `/// <reference types="..." />`: 声明对某个包的依赖
 3. `/// <reference no-default-lib="true"/>`: 把一个文件标记成默认库
 4. `/// <amd-module />`: 允许给编译器传入一个可选的模块名
+
+### Javascript文件类型检查
+
+https://www.tslang.cn/docs/handbook/type-checking-javascript-files.html
 
 ## 规范
 
@@ -881,7 +834,52 @@ https://www.tslang.cn/docs/handbook/declaration-files/do-s-and-don-ts.html
     能被 extends和 implements | 不能
     不可以 | 可以描述一个类型并且需要使用联合类型或元组类型
 
+5. Typescript中的模块是什么？
 
+    Typescript1.5后为了与ES6术语保持一致，内部模块都称为命名空间，外部模块简称模块。
+
+    模块在自身的作用域里执行，并不是全局作用域。这就意味着模块类的类、函数、对象等对外都是不可见的。除非你通过export导出，import导入。
+
+    模块通过使用模块加载器导入另一个模块。在运行时，模块加载器负责在执行模块之前定位和执行模块的所有依赖项。JavaScript中最常用的模块加载器是用于Node.js的CommonJS模块加载器和用于Web应用程序的require.js模块加载器。
+
+    特别说明：
+
+    为了支持CommonJS和AMD语法中的exports，TS提供了export = 语法，引入方式为import xxx = require("xxx")；
+
+6. 什么是Mixins?
+    
+    一种通过重用组件构建类的方法。
+
+    不通过类的直接继承来实现，而是将基类作为接口来实现。对于基类实例化部分在子类中实现，基类中原型的部分在子类中进行声明占位，然后通过一个Minxin函数将基类上的原型属性拷贝到子类上。
+
+7.  Declare关键字是干嘛用的？
+
+    我们在.ts中使用的第三方库时没有.d.ts声明文件的时候，我们可以通过declare来写申明文件。
+
+    可以声明该模块，甚至可以直接声明一个值为any的同名的变量，然后我们就可以在代码中直接使用该三方库了。
+
+    https://www.tslang.cn/docs/handbook/declaration-files/by-example.html
+
+8. 什么是类型断言？
+
+    类型断言对运行没有什么影响，仅供编译器使用。
+
+    向编译器提供我们所希望的分析代码的提示。
+
+    表示断言的两种方式：
+
+    1：<类型>变量
+
+    2：变量 as 类型 （在tsx中只能使用这种方式）
+
+9. Typescript 4.0新增变化
+
+    https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-0.html
+
+10. Typescript 4.1新增变化
+
+    https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html
+    
 ## 参考资料
 
 1. [官方文档](https://www.tslang.cn/docs/handbook/basic-types.html)

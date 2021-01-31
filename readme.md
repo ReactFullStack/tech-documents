@@ -41,7 +41,7 @@
 * 项目构建
 * 框架
     - [redux](/frontEnd/framework/redux/index.md)
-* TypeScript
+* [TypeScript](/frontEnd/typescript/index.md)
 
 ### 后端
 * 系统及基础
