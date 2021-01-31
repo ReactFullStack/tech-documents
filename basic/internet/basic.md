@@ -128,6 +128,5 @@
 ## 参考资料
 * https://blog.csdn.net/m0_37568814/article/details/81018769
 * https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91/199186
-* https://cn.udacity.com/course/networking-for-web-developers--ud256
 * https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/
 * http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html
