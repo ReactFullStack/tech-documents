@@ -59,7 +59,7 @@ https://www.runoob.com/git/git-workspace-index-repo.html
 
     删除本地分支：普通删除 git branch -d < branch > / 强制删除 git branch -D < branch >
     
-    删除远程分支：git push origin --delete <branch>
+    删除远程分支：git push origin --delete < branch >
 
 - 标签
 - - 创建标签
