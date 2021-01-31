@@ -17,7 +17,7 @@
         - [使用createAsyncThunk获取数据](#使用createAsyncThunk获取数据)
         - [组件中dispatch异步方法](#组件中dispatch异步方法)
         - [根据createAsyncThunk返回的数据更新state](#根据createAsyncThunk返回的数据更新state)
-* [常见问题](#常见问题)
+* [参考资料](#参考资料)
 
 
 ## 核心概念
