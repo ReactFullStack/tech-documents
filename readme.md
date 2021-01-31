@@ -32,7 +32,6 @@
 * 包管理
     - npm
     - yarn
-
 ### 前端
 * HTML
 * CSS
@@ -50,7 +49,6 @@
     - 进程管理
     - 内存管理
     - I/O管理
-    
 * 语言
     - JavaScript
 * 数据库
@@ -117,4 +115,3 @@
     - ali
     - AWS
     - Azure
-
