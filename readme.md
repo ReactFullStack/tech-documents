@@ -26,13 +26,12 @@
     - YAGNI
     - DRY
 * 网络安全
-    - HTTPS
-    - CORS
+    - [HTTP/HTTPS](/basic/http/index.md)
+    - [CORS](/basic/security/cors.md)
     - Content  Security Policy
 * 包管理
     - npm
     - yarn
-
 ### 前端
 * [HTML](/frontEnd/framework/html/index.md)
 * CSS
@@ -50,7 +49,6 @@
     - 进程管理
     - 内存管理
     - I/O管理
-    
 * 语言
     - JavaScript
 * 数据库
@@ -117,4 +115,3 @@
     - ali
     - AWS
     - Azure
-

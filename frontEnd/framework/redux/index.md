@@ -1,6 +1,6 @@
-# 框架
+# Redux
 
-* [Redux状态管理](https://redux.js.org/introduction/getting-started)
+* [Redux](https://redux.js.org/introduction/getting-started)
     - [核心概念](#核心概念)
         - [Action](#Action)
         - [Action Creators](#ActionCreators)
@@ -13,9 +13,11 @@
         - [创建Slice](#创建Slice)
         - [展示Redux数据](#展示Redux数据)
         - [添加新的Redux数据](#添加新的Redux数据)
-* [Antd框架](#Antd框架)
-* [常见问题](#常见问题)
-* [参考资料](#参考资料)  
+    - [处理异步逻辑](#处理异步逻辑)
+        - [使用createAsyncThunk获取数据](#使用createAsyncThunk获取数据)
+        - [组件中dispatch异步方法](#组件中dispatch异步方法)
+        - [根据createAsyncThunk返回的数据更新state](#根据createAsyncThunk返回的数据更新state)
+* [参考资料](#参考资料)
 
 
 ## 核心概念
@@ -41,6 +43,16 @@ const addTodoAction = {
 ```
 
 ### ActionCreators
+An action creator is a function that creates and returns an action object. We typically use these so we don't have to write the action object by hand every time
+
+```javascript
+const addTodo = text => {
+  return {
+    type: 'todos/todoAdded',
+    payload: text
+  }
+}
+```
 
 ### Reducers
 A reducer is a function that receives the current state and an action object, decides how to update the state if necessary, and return the new state.
@@ -254,3 +266,87 @@ The "selector functions" that you write will be called with the entire Redux sta
         )
     }
     ```
+
+    ## 处理异步逻辑
+    There are many kinds of async middleware for Redux, and each lets you write your logic using different syntax. The most common async middleware is redux-thunk, which lets you write plain functions that may contain async logic directly. Redux Toolkit's configureStore function automatically sets up the thunk middleware by default, and we recommend using thunks as the standard approach for writing async logic with Redux.
+
+    ![image](async.gif)
+
+    ### 使用createAsyncThunk获取数据
+    Redux Toolkit's createAsyncThunk API generates thunks that automatically dispatch those "start/success/failure" actions for you.
+    
+    ```javascript
+    import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
+    import { client } from '../../api/client'
+
+    const initialState = {
+        posts: [],
+        status: 'idle',
+        error: null
+    }
+
+    export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
+        const response = await client.get('/fakeApi/posts')
+        return response.posts
+    })
+    ```
+    `createAsyncThunk` accepts two arguments:
+    - A string that will be used as the prefix for the generated action types
+    - A "payload creator" callback function that should return a Promise containing some data, or a rejected Promise with an error
+
+    ### 组件中dispatch异步方法
+    ```javascript
+    import React, { useEffect } from 'react'
+    import { useSelector, useDispatch } from 'react-redux'
+    // omit other imports
+    import { selectAllPosts, fetchPosts } from './postsSlice'
+
+    export const PostsList = () => {
+        const dispatch = useDispatch()
+        const posts = useSelector(selectAllPosts)
+
+        const postStatus = useSelector(state => state.posts.status)
+
+        useEffect(() => {
+            if (postStatus === 'idle') {
+                dispatch(fetchPosts())
+            }
+        }, [postStatus, dispatch])
+
+        // omit rendering logic
+    }
+    ```
+
+    ### 根据createAsyncThunk返回的数据更新state
+
+    ```javascript
+    export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
+        const response = await client.get('/fakeApi/posts')
+        return response.posts
+    })
+
+    const postsSlice = createSlice({
+        name: 'posts',
+        initialState,
+        reducers: {
+            // omit existing reducers here
+        },
+        extraReducers: {
+            [fetchPosts.pending]: (state, action) => {
+                state.status = 'loading'
+            },
+            [fetchPosts.fulfilled]: (state, action) => {
+                state.status = 'succeeded'
+                // Add any fetched posts to the array
+                state.posts = state.posts.concat(action.payload)
+            },
+            [fetchPosts.rejected]: (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            }
+        }
+    })
+    ```
+
+## 参考资料
+- [官方文档](https://redux.js.org/introduction/getting-started)

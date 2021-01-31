@@ -228,26 +228,26 @@ HTTP响应也由四个部分组成，分别是：状态行、消息报头、空�
     -  认识更多--浏览器缓存篇: https://segmentfault.com/a/1190000014888462
 
 * 简单介绍下HTTP协议中缓存的处理流程?
-在HTTP协议中缓存的应用流程为：
+ 
+    在HTTP协议中缓存的应用流程为：
 
     - 1、当浏览器发起请求，会先查询Cache-Control判断内容是否过期，未过期则直接读取浏览器端的缓存信息，不发送HTTP请求，若过期进入第2步；
 
     - 2、此时浏览器缓存过期，判断上次返回头文件中是否含有Etag信息，如果有则带上If-None-Match字段信息发送请求给服务器，服务端判断Etag未修改则返回304，如果修改则返回200，否则进入第3步；
 
-    - 3、此时上次返回的头文件中没有Etag信息，此时判断上次返回头文件中是否含有Last-Modifed信息，有则带上
-If-Modified-Since字段信息发送请求，服务端判断Last-Modified失效则返回200， 有效则返回304，否则进入第4步；
+    - 3、此时上次返回的头文件中没有Etag信息，此时判断上次返回头文件中是否含有Last-Modifed信息，有则带上If-Modified-Since字段信息发送请求，服务端判断Last-Modified失效则返回200， 有效则返回304，否则进入第4步；
 
     - 4、此时Etag和Last-Modified都不存在，则直接向服务器请求内容。
 
     在缓存的应用流程中，涉及到的HTTP头部包含：
     
-    Expires（过期时间） 属性是HTTP控制缓存的基本手段
+    - Expires（过期时间） 属性是HTTP控制缓存的基本手段
     
-    Cache-Control响应头信息，让网站的发布者可以更全面的控制他们的内容 （包含max-age、max-stale、min-fresh等）
+    - Cache-Control响应头信息，让网站的发布者可以更全面的控制他们的内容 （包含max-age、max-stale、min-fresh等）
     
-    ETag 是实现与最近修改数据检查同样的功能的另一种方法：没有变化时不重新下载数据
+    - ETag 是实现与最近修改数据检查同样的功能的另一种方法：没有变化时不重新下载数据
     
-    last-modified 最近修改
+    - last-modified 最近修改
 
 * HTTP的长连接和短连接?
 
