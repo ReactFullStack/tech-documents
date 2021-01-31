@@ -1,4 +1,4 @@
-# 框架
+# Redux
 
 * [Redux](https://redux.js.org/introduction/getting-started)
     - [核心概念](#核心概念)
