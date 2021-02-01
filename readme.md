@@ -29,7 +29,7 @@
     - [HTTP/HTTPS](/basic/http/index.md)
     - [CORS](/basic/security/cors.md)
     - Content  Security Policy
-* 包管理
+* [包管理](/basic/package/index.md)
     - npm
     - yarn
 ### 前端
