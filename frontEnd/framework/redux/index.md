@@ -204,6 +204,7 @@ The "selector functions" that you write will be called with the entire Redux sta
 
     export default postsSlice.reducer
     ```
+![image](./warning.png)
 2. Add a click handler that will dispatch the postAdded action creator and pass in a new post object containing the title and content the user wrote.
 
     In order to dispatch actions from a component, we need access to the store's dispatch function. We get this by calling the useDispatch hook from React-Redux. We also need to import the postAdded action creator into this file.
@@ -350,3 +351,6 @@ The "selector functions" that you write will be called with the entire Redux sta
 
 ## 参考资料
 - [官方文档](https://redux.js.org/introduction/getting-started)
+- [Redux 入门教程（一）：基本用法](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html)
+- [Redux 入门教程（二）：中间件与异步操作](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html)
+- [Redux 入门教程（三）：React-Redux 的用法](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html)

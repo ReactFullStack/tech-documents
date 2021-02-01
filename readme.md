@@ -3,7 +3,7 @@
 ### 基础知识
 * [Git](/basic/git/index.md)
 * 数据结构和算法
-* 设计模式
+* [设计模式](/basic/designPattern/index.md)
 * Internet
     - [网络基本原理](/basic/internet/basic.md)
     - [DNS，域名，FTP，SMTP等](/basic/internet/others.md)
@@ -29,7 +29,7 @@
     - [HTTP/HTTPS](/basic/http/index.md)
     - [CORS](/basic/security/cors.md)
     - Content  Security Policy
-* 包管理
+* [包管理](/basic/package/index.md)
     - npm
     - yarn
 ### 前端
