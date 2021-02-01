@@ -6,8 +6,17 @@
 * [SEO](#SEO)
 
 ## 基础
-- [HTML入门](https://developer.mozilla.org/zh-CN/docs/Learn/HTML/Introduction_to_HTML/Getting_started)
-- [HTML基础文档](https://developer.mozilla.org/zh-CN/docs/Learn/Getting_started_with_the_web/HTML_basics)
+- [HTML属性](https://www.w3school.com.cn/tags/html_ref_standardattributes.asp)
+- [HTML事件属性](https://www.w3school.com.cn/tags/html_ref_eventattributes.asp)
+- [ISO-8859-1参考手册](https://www.w3school.com.cn/tags/html_ref_entities.html)
+- HTML 结构标签
+  - [!DOCTYPE](https://www.w3school.com.cn/tags/tag_doctype.asp)
+  - [head](http://c.biancheng.net/view/7555.html)
+  - [meta](http://c.biancheng.net/view/7568.html)
+  - [table](http://c.biancheng.net/view/7540.html)
+  - [inpt](http://c.biancheng.net/view/7574.html)
+- [标签元素分类](http://c.biancheng.net/view/7533.html)
+- [HTML应用程序缓存](https://www.w3school.com.cn/html/html5_app_cache.asp)
 ## 语义化
 - 语义化标签可以更清晰的表达文档结构
 ```
@@ -19,7 +28,7 @@
 <nav>
 
 定义文章导航栏，链接等;
-nav一般和u、li配合做导航栏；
+nav一般和ul、li配合做导航栏；
 
 <main>
 
@@ -48,6 +57,8 @@ main标签在一份文档中是唯一的，其后代元素常常包括<article>�
 
 ![image](semanticTag.webp)
 ## 表单和校验
+- [form标签](http://c.biancheng.net/view/7564.html)
+- [form文件上传](http://c.biancheng.net/view/7605.html)
 - [表单基础概念](https://developer.mozilla.org/zh-CN/docs/Learn/HTML/Forms/How_to_structure_an_HTML_form)
  
 - [Javascript表单验证](https://www.w3school.com.cn/js/js_form_validation.asp)
@@ -104,4 +115,5 @@ HTML标签权重分值排列 内部链接文字：10分 标题title：10分 域�
 10、外部文件策略 把javascript文件和css文件分别放在js和css外部文件中。这样做的好处是把重要的页面内容放到页面顶部，同时能缩小文件大小。有利于搜索引擎快速准确地抓取页面的重要内容。其他的字体<FONT>和格式化标签也尽量少用，建议采用CSS定义。 
 ```
 ## 参考文档
+[HTML](https://www.w3school.com.cn/html/index.asp)
 [SEO](https://developer.mozilla.org/zh-CN/docs/Glossary/SEO)
