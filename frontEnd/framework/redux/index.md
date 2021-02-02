@@ -351,6 +351,7 @@ The "selector functions" that you write will be called with the entire Redux sta
 
 ## 参考资料
 - [官方文档](https://redux.js.org/introduction/getting-started)
+- [redux-toolkit](https://redux-toolkit.js.org/introduction/quick-start)
 - [Redux 入门教程（一）：基本用法](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html)
 - [Redux 入门教程（二）：中间件与异步操作](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html)
 - [Redux 入门教程（三）：React-Redux 的用法](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html)
