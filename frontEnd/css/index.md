@@ -6,13 +6,19 @@
 * [参考文档](#参考文档)
 
 ## 基础
-- [CSS基本概念](https://developer.mozilla.org/zh-CN/docs/Learn/Getting_started_with_the_web/CSS_basics)
-- css 常用样式属性
+- CSS基本概念
+  - [CSS文档](https://developer.mozilla.org/zh-CN/docs/Learn/Getting_started_with_the_web/CSS_basics)
+  - CSS 概括
+   ![image](./img/cssBasic.png)
+- CSS 常用样式属性
   - [背景属性](https://www.runoob.com/css/css-background.html)
   - [文本属性](https://www.runoob.com/css/css-text.html)
   - [字体属性](https://www.runoob.com/css/css-font.html)
+- CSS 选择器
+   ![image](./img/cssSelect.png)
+- CSS 尺寸单位与颜色取值
+   ![image](./img/cssPxColor.png)
 
-- [CSS链接](https://www.runoob.com/css/css-link.html)
 ## Layout
 ### 浮动
 

@@ -12,7 +12,8 @@
  - [HTML标签手册](https://www.w3school.com.cn/tags/html_ref_byfunc.asp)
 - HTML基本结构
 ![image](./img/htmlDoc.png)
-
+- HTML 元素分类
+![image](./img/tagType.png)
 ### 2. HTLM进阶
 
  1. HTML5 概括
@@ -140,7 +141,7 @@
       </form>
     ```
  
-- [常见验证方式](https://www.jb51.net/article/118265.htm)
+5. [常见验证方式](https://www.jb51.net/article/118265.htm)
 
 ## SEO
 
