@@ -11,66 +11,134 @@
  - [基本概念](https://developer.mozilla.org/zh-CN/docs/Web/HTML)
  - [HTML标签手册](https://www.w3school.com.cn/tags/html_ref_byfunc.asp)
 - HTML基本结构
-![image](htmlDoc.png)
+![image](./img/htmlDoc.png)
 
 ### 2. HTLM进阶
 
- 1. HTML5 拓展了哪些内容
-   - 语义化标签
-   - 本地存储
-   - 兼容特性
-   - 2D、3D
-   - 动画、过渡
-   - CSS3 特性
-   - 性能与集成
-2. DOM操作
-### 3. 常见问题
+ 1. HTML5 概括
+  ![image](./img/html5.png)
+ 2. [HTML5标签手册](https://www.w3cschool.cn/html5/)
+ 3. HTML5 的元素分类
+  ![image](./img/html5Tag.png)
+### 3. 面试题
+1. 浏览器页面构成
+![image](./img/1.png)
+
+2. 浏览器内核相关知识点
+![image](./img/2.png)
+
+3. WEB标准和W3C的理解和认识
+![image](./img/3.png)
+4. DocType 标签
+![image](./img/4.png)
+5. meta 标签
+![image](./img/5.png)
+6. label 标签
+![image](./img/6.png)
+7. link && @import
+![image](./img/7.png)
+8. HTML 全局属性
+![image](./img/8.png)
+9. target 属性
+![image](./img/9.png)
+10. 常用标签属性对比
+![image](./img/10.png)
+11. HTML 字符
+![image](./img/11.png)
+12. HTML 布局
+![image](./img/12.png)
+13. Shadow
+![image](./img/13.png)
+14. 浏览器数据存储
+![image](./img/14.png)
+15. 标签页间的通信
+![image](./img/15.png)
+16. cookie和 session 区别
+![image](./img/16.png)
+17. 实现一个圆形可点击区域的方式
+![image](./img/17.png)
 
 ## 语义化
-- 语义化标签可以更清晰的表达文档结构
-```
-<header>
-定义文章的介绍信息：标题，logo，slogan；
-包裹目录部分，搜索框，一个nav或者任何相关的logo;
-一个页面中<header>的个数没有限制，可以为每个内容块添加一个header；
-
-<nav>
-
-定义文章导航栏，链接等;
-nav一般和ul、li配合做导航栏；
-
-<main>
-
-定义文章的主要内容
-main标签在一份文档中是唯一的，其后代元素常常包括<article>；
-
-<article>
-
-定义文档中可以脱离其他部分，一份独立的内容，通常带有标题，当article内嵌article时，里外层的内容应该是相关的，比如一篇微博和它的评论；
-
-<section>
-
-与article的差别在于，它是整体的一部分，或者是文章的一节，一般来说section也会带有标题；
-
-<aside>
-
-侧边栏（与article并列存在）或者嵌入内容（在article内），通常认为是独立拆分出来而不受整体影响的一部分，作为主要内容的附属信息，如索引，词条列表，或者页面及站点的附属信息，如广告，作者资料介绍等；
-
-<footer>
-
-页脚，通常包含作者、版权信息或者相关链接等
-
-```
-
+- 语义化概括
+![image](./img/yuyihua.png)
 - 语义化标签布局
+![image](./img/semanticTag.webp)
+- [HTML5语义化详解](https://www.w3school.com.cn/html/html5_semantic_elements.asp)
 
-![image](semanticTag.webp)
 ## 表单和校验
-- [form标签](http://c.biancheng.net/view/7564.html)
-- [form文件上传](http://c.biancheng.net/view/7605.html)
-- [表单基础概念](https://developer.mozilla.org/zh-CN/docs/Learn/HTML/Forms/How_to_structure_an_HTML_form)
+1.  [form基本概念](http://c.biancheng.net/view/7564.html)
+
+2. 表单基本属性和控件
+![image](./img/formA.png)
+
+3. 表单新增类型和属性
+![image](./img/formB.png)
+
+4. 表单提交的方式
+ - 1.无刷新页面提交表单
+   ```javascript
+    //表单可实现无刷新页面提交，无需页面跳转，如下，通过一个隐藏的iframe实现，form表单的target设置为iframe的name名称，
+    // form提交目标位当前页面iframe则不会刷新页面
+
+    <form action="/url.do" method="post" target="targetIfr">
+      <input type="text" name="name"/>
+    </form>   
+    <iframe name="targetIfr" style="display:none"></iframe> 
+   ```
+
+ - 2.通过type=submit提交
+   ```javascript
+      //一般表单提交通过type=submit实现，input type=“submit”,浏览器显示为button按钮，通过点击这个按钮提交表单数据跳转到/url.do
+
+        <form action="/url.do" method="post">
+          <input type="text" name="name"/>
+          <input type="submit" value="提交">
+        </form>
+    ```
+
+ - 3.js提交form表单
+   ```javascript
+    //js事件触发表单提交，通过button、链接等触发事件，js调用submit()方法提交表单数据，jquery通过submit()方法
+    // html
+    <form id="form" action="/url.do" method="post">
+      <input type="text" name="name"/>
+    </form>
+
+    //js: 
+    document.getElementById("form").submit();
+   ```
  
-- [Javascript表单验证](https://www.w3school.com.cn/js/js_form_validation.asp)
+ - 4.ajax异步提交表单数据(重点)
+   ```javascript
+    //采用ajax异步方式，通过js获取form中所有input、select等组件的值，将这些值组成Json格式，通过异步的方式与服务器端进行交互，
+    // 一般将表单数据传送给服务器端，服务器端处理数据并返回结果信息等
+    // html
+    <form id="form"  method="post">
+      <input type="text" name="name" id="name"/>
+    </form>
+    // js
+      var params = {"name", $("#name").val()}
+    $.ajax({
+          type: "POST",
+          url: "/url.do",
+          data: params,
+          dataType : "json",
+          success: function(respMsg){
+          }
+      });
+
+   ```
+ 
+ - 5.form表单上传文件
+   ```javascript
+      // 使用form表单进行上传文件需要为form添加enctype=“multipart/form-data” 属性，除此之外还需要将表单的提交方法改成post,
+      // 如下 method=“post”, input type的类型需要设置为file
+
+      <form action="/url.do" enctype="multipart/form-data" method="post">
+          <input type="file" name="name"/>
+          <input type="submit" value="提交">
+      </form>
+    ```
  
 - [常见验证方式](https://www.jb51.net/article/118265.htm)
 
@@ -124,5 +192,6 @@ HTML标签权重分值排列 内部链接文字：10分 标题title：10分 域�
 10、外部文件策略 把javascript文件和css文件分别放在js和css外部文件中。这样做的好处是把重要的页面内容放到页面顶部，同时能缩小文件大小。有利于搜索引擎快速准确地抓取页面的重要内容。其他的字体<FONT>和格式化标签也尽量少用，建议采用CSS定义。 
 ```
 ## 参考文档
-[HTML](https://www.w3school.com.cn/html/index.asp)
-[SEO](https://developer.mozilla.org/zh-CN/docs/Glossary/SEO)
+- [HTML](https://www.w3school.com.cn/html/index.asp)
+- [SEO](https://developer.mozilla.org/zh-CN/docs/Glossary/SEO)
+- [面试题](https://blog.csdn.net/nnnn1235657/article/details/94896024?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control)
