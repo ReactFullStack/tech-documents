@@ -19,7 +19,6 @@
 * 设计开发思想
     - 架构
         * [微服务](/basic/designThinking/architecture/microService/index.md)
-        * SOA
         * Serverless
     - SOLID
     - KISS
