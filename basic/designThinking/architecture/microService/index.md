@@ -86,6 +86,9 @@ https://zhuanlan.zhihu.com/p/61901608
 ### 微服务的划分
 https://zhuanlan.zhihu.com/p/86346030
 
+### 微服务的测试
+https://www.jianshu.com/p/7163de1a7cbb
+
 ## 进阶
 
 ### 微服务相关实践
