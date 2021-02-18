@@ -13,10 +13,10 @@
     - [安全性建议](#安全性建议)
     - [OpenID](#openid)
       - [基本概念](#基本概念)
-      - [OpenID Connect流程主要涉及如下几个步骤：](#openid-connect流程主要涉及如下几个步骤)
-  - [Basic](#basic)
-  - [Token](#token)
-    - [背景](#背景-1)
+      - [OpenID Connect流程主要涉及如下几个步骤](#openid-connect流程主要涉及如下几个步骤)
+  - [Basic Authentication](#basic-authentication)
+  - [Token Authentication](#token-authentication)
+    - [背景](#背景)
     - [概念](#概念)
     - [原理](#原理)
     - [身份认证概述](#身份认证概述)
@@ -159,7 +159,7 @@ OpenID Connect 是在OAuth2.0 协议基础上增加了身份验证层 （identit
 
 id_token通常是JWT（Json Web Token），JWT有三部分组成，header，body，signature。header主要用来声明使用的算法，声明claim在body中，并且签名在signature中。OpenID Connection 在OAuth2.0 的基础上额外增加了UserInfo的Endpoint。id_token作为访问UserInfo Endpoint的凭证来获取用户的基本信息（profile，email，phone），并验证用户。
 
-#### OpenID Connect流程主要涉及如下几个步骤：
+#### OpenID Connect流程主要涉及如下几个步骤
 
 发现获取OIDC metadata
 1. 执行OAuth流程，获取id_token和access_token。例如：在 Authorization code模式下即为通过code来换取id_token和access_token。
@@ -167,11 +167,68 @@ id_token通常是JWT（Json Web Token），JWT有三部分组成，header，body
 1. 基于日期签名来本地验证JWT id_token，或者将id_token发给后端backend进行验证
 1. 根据id_token通过UserInfo Endpoint获取用户信息，根据access_token获取用户其他资源信息
 
-## Basic
+#### OpenID Connect流程主要涉及如下几个步骤s
 
+## Basic Authentication
 
+- [基础知识](https://baike.baidu.com/item/Basic%20Auth/3097056)
 
-## Token
+### Http Basic 简介
+- [概念](https://swagger.io/docs/specification/authentication/basic-authentication/)
+- 基本身份验证是HTTP协议中内置的一种简单身份验证方案。 客户端发送带有Authorization标头的HTTP请求，该标头包含单词Basic word，空格和以base64编码的字符串username：password
+
+```javascript
+Authorization: Basic ZGVtbzpwQDU1dzByZA==
+```
+
+### 背景
+
+- 在你访问一个需要HTTP Basic Authentication的URL的时候，如果你没有提供用户名和密码，服务器就会返回401，如果你直接在浏览器中打开，浏览器会提示你输入用户名和密码，也就是上面的图示。
+
+- 要在发送请求的时候添加HTTP Basic Authentication认证信息到请求中，有两种方法：  
+
+1. 在请求头中添加Authorization：  Authorization: "Basic 用户名和密码的base64加密字符串"  。
+2. 在url中添加用户名和密码。
+
+### 认证过程
+1. 客户端发送http request 给服务器,服务器验证该用户是否已经登录验证过了，如果没有的话，服务器会返回一个401 Unauthozied给客户端，并且在Response 的 header "WWW-Authenticate" 中添加信息
+2. 浏览器在接受到401 Unauthozied后，会弹出登录验证的对话框。用户输入用户名和密码后，浏览器用BASE64编码后，放在Authorization header中发送给服务器
+3. 服务器将Authorization header中的用户名密码取出，进行验证， 如果验证通过，将根据请求，发送资源给客户端，认证结束。
+    - 当request第一次到达服务器时，服务器没有认证的信息，服务器会返回一个401 Unauthozied给客户端。认证之后将认证信息放在session，以后在session有效期内就不用再认证了
+  
+```javascript
+HTTP Basic Authentication
+基础认证简单的使用base64对密码、用户名进行加密，并将加密后的信息放在Header中，本质上还是明文传输用户名、密码等，基本流程：
+客户端发起GET请求
+服务器响应401 Unauthorized，www-Authenticate指定认证算法，realm指定安全域
+客户端重新发起请求，Authorization指定用户名和密码信息
+服务器认证成功，响应200
+```
+
+### 原理
+在HTTP协议进行通信的过程中，HTTP协议定义了基本认证过程以允许HTTP服务器对WEB浏览器进行用户身份认证的方法，当一个客户端向HTTP服务 器进行数据请求时，
+
+如果客户端未被认证，则HTTP服务器将通过基本认证过程对客户端的用户名及密码进行验证，以决定用户是否合法。
+
+客户端在接收到HTTP服务器的身份认证要求后，会提示用户输入用户名及密码， 用户输入后，
+
+客户端将用户名和密码中间用“：”分隔合并，并将合并后的字符串用BASE64编码，在每次请求数据 时，将密文附加于请求头（Request Header）Authorization: Basic XXXXXXX中。
+
+HTTP服务器在每次收到请求包后，根据协议取得客户端附加的用户信息（BASE64编码的用户名和密码），解开请求包，对用户名及密码进行验证，
+
+如果用 户名及密码正确，则根据客户端请求，返回客户端所需要的数据;否则，返回错误代码或重新要求客户端提供用户名及密码。
+
+### 优点
+
+- 基本认证的一个优点是基本上所有流行的网页浏览器都支持基本认证。基本认证很少在可公开访问的互联网网站上使用，有时候会在小的私有系统中使用（如路由器网页管理接口）。后来的机制HTTP摘要认证是为替代基本认证而开发的，允许密钥以相对安全的方式在不安全的通道上传输。
+    
+- 程序员和系统管理员有时会在可信网络环境中使用基本认证，使用Telnet或其他明文网络协议工具手动地测试Web服务器。这是一个麻烦的过程，但是网络上传输的内容是人可读的，以便进行诊断。
+
+### 缺点
+- 虽然基本认证非常容易实现，但该方案创建在以下的假设的基础上，即：客户端和服务器主机之间的连接是安全可信的。特别是，如果没有使用SSL/TLS这样的传输层安全的协议，那么以明文传输的密钥和口令很容易被拦截。该方案也同样没有对服务器返回的信息提供保护。
+- 现存的浏览器保存认证信息直到标签页或浏览器被关闭，或者用户清除历史记录。HTTP没有为服务器提供一种方法指示客户端丢弃这些被缓存的密钥。这意味着服务器端在用户不关闭浏览器的情况下，并没有一种有效的方法来让用户注销
+
+## Token Authentication
 
 ### 背景
 - Token的引入
@@ -405,7 +462,7 @@ Authorization: Bearer <token>
 ## 常见问题
 
 - [OpenID 和 OAuth 有什么区别？](https://www.zhihu.com/question/19628327)
-- 
+- [认证、授权和凭证区别](https://insights.thoughtworks.cn/api-2/)
 
 ## 参考资料
 - [理解OAuth 2.0](http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html)
