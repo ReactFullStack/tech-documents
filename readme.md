@@ -10,12 +10,12 @@
 * [HTTP/HTTPS](/basic/http/index.md)
 * [浏览器工作原理](/basic/browser/index.md)
 * API
-    - Authentication
+    - [Authentication](/basic/api/authentication.md)
         * OAuth
         * Basic Authentication
         * Token Authentication
         * JWT
-    - REST
+    - [REST](/basic/api/rest.md)
 * 设计开发思想
     - 架构
         * [微服务](/basic/designThinking/architecture/microService/index.md)
