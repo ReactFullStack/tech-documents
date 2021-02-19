@@ -17,47 +17,42 @@
 ## ESlint
 
 ### [快速开始](http://eslint.cn/docs/user-guide/getting-started)
-
 1. 安装
-```bash
-npm install eslint --save-dev
-```
+    ```bash
+    npm install eslint --save-dev
+    ```
 
 2. 设置配置文件
-```bash
-./node_modules/.bin/eslint --init
-```
+    ```bash
+    ./node_modules/.bin/eslint --init
+    ```
 
 3. 运行
-```bash
-./node_modules/.bin/eslint yourfile.js
-```
+    ```bash
+    ./node_modules/.bin/eslint yourfile.js
+    ```
 
 ### 基础
 
 #### [配置](http://eslint.cn/docs/user-guide/configuring)
 
 1. 有两种主要的方式来配置 ESLint：
-
-- Configuration Comments - 使用 JavaScript 注释把配置信息直接嵌入到一个代码源文件中。
-
-- Configuration Files - 使用 JavaScript、JSON 或者 YAML 文件为整个目录（处理你的主目录）和它的子目录指定配置信息。可以配置一个独立的 .eslintrc.* 文件，或者直接在 package.json 文件里的 eslintConfig 字段指定配置，ESLint 会查找和自动读取它们，再者，你可以在命令行运行时指定一个任意的配置文件。
+    - Configuration Comments - 使用 JavaScript 注释把配置信息直接嵌入到一个代码源文件中。
+    - Configuration Files - 使用 JavaScript、JSON 或者 YAML 文件为整个目录（处理你的主目录）和它的子目录指定配置信息。可以配置一个独立的 .eslintrc.* 文件，或者直接在 package.json 文件里的 eslintConfig 字段指定配置，ESLint 会查找和自动读取它们，再者，你可以在命令行运行时指定一个任意的配置文件。
 
 2. 有很多信息可以配置：
-
-- Environments: 指定脚本的运行环境。每种环境都有一组特定的预定义全局变量。
-- Globals: 脚本在执行期间访问的额外的全局变量。
-- Rules: 启用的规则及其各自的错误级别。
+    - Environments: 指定脚本的运行环境。每种环境都有一组特定的预定义全局变量。
+    - Globals: 脚本在执行期间访问的额外的全局变量。
+    - Rules: 启用的规则及其各自的错误级别。
 
 ##### 配置Rules
-
 规则有以下三种值：
 - "off" or 0 - 关闭规则
 - "warn" or 1 - 将规则视为一个警告（不会影响退出码）
 - "error" or 2 - 将规则视为一个错误 (退出码为1) 
 
 这三个错误级别可以允许你细粒度的控制 ESLint 是如何应用规则
-```
+```ts
 // .eslintrc
 {
     "rules": {
@@ -68,8 +63,7 @@ npm install eslint --save-dev
 ```
 
 ##### 配置plugins
-
-```
+```ts
 {
     "plugins": [
         "plugin1",
@@ -85,13 +79,12 @@ npm install eslint --save-dev
 ```
 
 #### 指定解析器
-
 ESLint 默认使用Espree作为其解析器，你可以在配置文件中指定一个不同的解析器，只要该解析器符合下列要求：
 
 - 它必须是一个 Node 模块，可以从它出现的配置文件中加载。通常，这意味着应该使用 npm 单独安装解析器包。
 - 它必须符合 parser interface。
 
-```
+```ts
 {
     "parser": "esprima",
 }
@@ -107,17 +100,15 @@ ESLint 默认使用Espree作为其解析器，你可以在配置文件中指定�
     - experimentalObjectRestSpread：启用实验性的 object rest/spread properties 支持。(重要：这是一个实验性的功能,在未来可能会有明显改变。 建议你写的规则 不要 依赖该功能，除非当它发生改变时你愿意承担维护成本。)
 
 ##### 指定处理器
-
-```
+```ts
 {
     "plugins": ["a-plugin"],
     "processor": "a-plugin/a-processor"
 }
 ```
-
 要为特定类型的文件指定处理器，请使用 overrides 键和 processor 键的组合。例如，下面对 *.md 文件使用处理器 a-plugin/markdown。
 
-```
+```ts
 {
     "plugins": ["a-plugin"],
     "overrides": [
@@ -130,11 +121,10 @@ ESLint 默认使用Espree作为其解析器，你可以在配置文件中指定�
 ```
 
 ##### 指定Global
-
 一个环境定义了一组预定义的全局变量。这些环境并不是互斥的，所以你可以同时定义多个。
 
 要在配置文件里指定环境，使用 env 关键字指定你想启用的环境，并设置它们为 true。例如，以下示例启用了 browser 和 Node.js 的环境：
-```
+```ts
 {
     "env": {
         "browser": true,
@@ -144,19 +134,17 @@ ESLint 默认使用Espree作为其解析器，你可以在配置文件中指定�
 ```
 
 #### [命令行](http://eslint.cn/docs/user-guide/command-line-interface)
-
 命令行工具有几个选项，你可以通过运行 eslint -h 查看所有选项。
 
 这些选项可以通过重复该选项或使用逗号分隔的列表进行指定（除了 --ignore-pattern 不允许第二种风格）。
 
-```
+```shell
 eslint --ext .jsx --ext .js lib/
 
 eslint --ext .jsx,.js lib/
 ```
 
 ##### 基础配置
-
 1. --no-eslintrc：禁用 .eslintrc.* 和 package.json 文件中的配置。
 2. -c, --config：该选项允许你为 ESLint (查看 Configuring ESLint 了解更多)指定一个额外的配置文件。
 3. --env：指定环境。关于每种环境中定义的全局变量的详细信息请查看 configuration 文档。该选项只能启用环境，不能禁用在其它配置文件中设置的环境。要指定多个环境的话，使用逗号分隔它们，或多次使用这个选项。
@@ -166,13 +154,11 @@ eslint --ext .jsx,.js lib/
 7. --resolve-plugins-relative-to: 更改插件解析所在的文件夹。
 
 ##### 指定Rules和Plugins
-
 1. --rulesdir：指定另一个加载规则文件的目录。这允许你在运行时动态加载新规则。当你有自定义规则，而且这些规则不适合绑定到 ESLint 时，这会很有用。
 2. --plugin：这个选项指定一个要加载的插件
 3. --rule：指定要使用的规则。这些规则将会与配制文件中指定的规则合并
 
 ##### 修复
-
 1. --fix：指示 ESLint 试图修复尽可能多的问题
 2. --fix-dry-run：与 --fix 有相同的效果，唯一一点不同是，修复不会保存到文件系统中
 3. --fix-type：允许你在使用 --fix 或 --fix-dry-run 时指定要应用的修复的类型。修复的三种类型是:
@@ -181,7 +167,6 @@ eslint --ext .jsx,.js lib/
     - layout - 应用不改变程序结构 (AST) 的修复
 
 ##### 忽略
-
 1. --ignore-path：指定一个文件作为 .eslintignore。默认情况下，ESLint 在当前工作目录下查找 .eslintignore。你可以通过提供另一个文件的路径改变这种行为。
 2. --no-ignore：禁止排除 .eslintignore、--ignore-path 和 --ignore-pattern 文件中指定的文件。
 3. --ignore-pattern：指定要忽略的文件模式(除了 .eslintignore 中的模式之外)。你可以重复该选项以提供多个模式
@@ -208,7 +193,6 @@ eslint --ext .jsx,.js lib/
 ## Prettier
 
 ### 介绍
-
 Prettier是一个代码格式化工具，它能够解析代码，使用你自己设定的规则来重新打印出格式规范的代码。
 
 它具有以下几个有优点：
@@ -237,157 +221,153 @@ yarn add --dev --exact prettier
 
 1. 格式化所有文件
 - npm
-```bash
-npx prettier --write .
-```
+    ```bash
+    npx prettier --write .
+    ```
 
 - yarn
-```bash
-yarn prettier --write .
-```
+    ```bash
+    yarn prettier --write .
+    ```
 
 2. 格式化某个目录
-```bash
-yarn prettier --write app/
-```
+    ```bash
+    yarn prettier --write app/
+    ```
 
 3. 格式化某个文件
-```bash
-yarn prettier --write app/components/Button.js
-```
+    ```bash
+    yarn prettier --write app/components/Button.js
+    ```
 
 4. 格式化某个目录下的某个类型的所有文件
-```bash
-yarn prettier --write "app/**/*.js"
-```
+    ```bash
+    yarn prettier --write "app/**/*.js"
+    ```
 
 ##### [Pre-commit Hooks](https://prettier.bootcss.com/docs/precommit.html)
-
 1. lint-staged
-```bash
-npx mrm lint-staged
-```
+    ```bash
+    npx mrm lint-staged
+    ```
 
-```json
-// 并将此配置添加到您的package.json：
-{
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+    ```json
+    // 并将此配置添加到您的package.json：
+    {
+    "husky": {
+        "hooks": {
+        "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "**/*": "prettier --write --ignore-unknown"
     }
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  }
-}
-```
+    }
+    ```
 
 2. pretty-quick
-```bash
-npm install --save-dev pretty-quick husky
-```
+    ```bash
+    npm install --save-dev pretty-quick husky
+    ```
 
-```json
-// 并将此配置添加到您的package.json：
+    ```json
+    // 并将此配置添加到您的package.json：
 
-{
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
+    {
+    "husky": {
+        "hooks": {
+        "pre-commit": "pretty-quick --staged"
+        }
     }
-  }
-}
-```
+    }
+    ```
 
 3. pre-commit
-```yaml
-// .pre-commit-config.yaml文件：
+    ```yaml
+    // .pre-commit-config.yaml文件：
 
-- repo: https://github.com/pre-commit/mirrors-prettier
-  rev: "" # Use the sha or tag you want to point at
-  hooks:
-    - id: prettier
-```
+    - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "" # Use the sha or tag you want to point at
+    hooks:
+        - id: prettier
+    ```
 
 4. git-format-staged
-```bash
-npm install --save-dev git-format-staged husky
-```
+    ```bash
+    npm install --save-dev git-format-staged husky
+    ```
 
-```json
-// 并将此配置添加到您的package.json：
+    ```json
+    // 并将此配置添加到您的package.json：
 
-{
-  "husky": {
-    "hooks": {
-      "pre-commit": "git-format-staged -f 'prettier --ignore-unknown --stdin --stdin-filepath \"{}\"' ."
+    {
+    "husky": {
+        "hooks": {
+        "pre-commit": "git-format-staged -f 'prettier --ignore-unknown --stdin --stdin-filepath \"{}\"' ."
+        }
     }
-  }
-}
-```
+    }
+    ```
 
 5. Shell script
 
 ##### 工作方式
-
 - Input
-```
-foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());
-```
+    ```
+    foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());
+    ```
 
 - Output
-```
-foo(
-  reallyLongArg(),
-  omgSoManyParameters(),
-  IShouldRefactorThis(),
-  isThereSeriouslyAnotherOne()
-);
-```
+    ```
+    foo(
+        reallyLongArg(),
+        omgSoManyParameters(),
+        IShouldRefactorThis(),
+        isThereSeriouslyAnotherOne()
+    );
+    ```
 
 ##### 与ESLint结合使用
-
 很多项目都会使用ESLint来提高代码的质量，有两种方式能够集成Prettier和ESLint，你也可以单独或同时使用它们。
 
 1. 使用ESLint运行Prettier
 
-如果你已经在你的项目中使用ESLint并且想要只通过单独一条命令来执行你的所有的代码检查的话，你可以使用ESLint来为你运行Prettier。
+    如果你已经在你的项目中使用ESLint并且想要只通过单独一条命令来执行你的所有的代码检查的话，你可以使用ESLint来为你运行Prettier。
 
-只需要使用eslint-plugin-prettier来添加Prettier作为ESLint的规则配置。
+    只需要使用eslint-plugin-prettier来添加Prettier作为ESLint的规则配置。
 
-```bash
-yarn add --dev prettier eslint-plugin-prettier
-```
+    ```bash
+    yarn add --dev prettier eslint-plugin-prettier
+    ```
 
-```json
-// .eslintrc.json
-{
-  "plugins": ["prettier"],
-  "rules": {
-    "prettier/prettier": "error"
-  }
-}
-```
+    ```json
+    // .eslintrc.json
+    {
+    "plugins": ["prettier"],
+    "rules": {
+        "prettier/prettier": "error"
+    }
+    }
+    ```
 
 2. 关闭ESLint的格式规则
 
-你是否通过ESLint来运行Prettier，又或者是单独运行两个工具，那你大概只想要每个格式问题只出现一次，而且你特别不想要ESLint仅仅是和Prettier有简单的不同和偏好而报出“问题”。
+    你是否通过ESLint来运行Prettier，又或者是单独运行两个工具，那你大概只想要每个格式问题只出现一次，而且你特别不想要ESLint仅仅是和Prettier有简单的不同和偏好而报出“问题”。
 
-所以你大概想要禁用冲突的规则（当保留其他Prettier不关心的规则时）最简单的方式是使用eslint-config-prettier。它可以添加到任何ESLint配置上面。
+    所以你大概想要禁用冲突的规则（当保留其他Prettier不关心的规则时）最简单的方式是使用eslint-config-prettier。它可以添加到任何ESLint配置上面。
 
-```bash
-yarn add --dev eslint-config-prettier
-```
+    ```bash
+    yarn add --dev eslint-config-prettier
+    ```
 
-```json
-// .eslintrc.json
-{
-  "extends": ["prettier"]
-}
-```
+    ```json
+    // .eslintrc.json
+    {
+        "extends": ["prettier"]
+    }
+    ```
 
 ##### [API](https://prettier.bootcss.com/docs/api.html)
-
 1. prettier.format(source [, options])
 2. prettier.check(source [, options])
 3. prettier.formatWithCursor(source [, options])
@@ -400,7 +380,6 @@ yarn add --dev eslint-config-prettier
 #### 配置
 
 ##### [选项](https://prettier.bootcss.com/docs/options.html)
-
 - Print Width
 - Tab Width
 - Tabs
