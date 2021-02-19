@@ -11,8 +11,8 @@
 ## 基础概念
 
 ### 官方文档
-1. [文档](#https://ant.design/docs/react/introduce-cn)
-2. [组件](#https://ant.design/components/overview-cn/)
+1. [文档](https://ant.design/docs/react/introduce-cn)
+2. [组件](https://ant.design/components/overview-cn/)
 
 ### 安装
 1. npm
@@ -123,7 +123,7 @@
         </ConfigProvider>
     );
     ```
-2. [目前antd支持的语言](#https://ant.design/docs/react/i18n-cn)
+2. [目前antd支持的语言](https://ant.design/docs/react/i18n-cn)
 
 
 

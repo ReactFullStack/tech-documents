@@ -108,7 +108,7 @@ React 有十分强大的组合模式。我们推荐使用组合而非继承来�
 ### 生命周期
 
 - [深入详解 React 生命周期](https://juejin.cn/post/6914112105964634119)
-- React 生命周期改版原因：[React Fiber](#https://zhuanlan.zhihu.com/p/26027085?utm_source=wechat_session&utm_medium=social&utm_oi=41216360054784&wechatShare=1&s_r=0) 会影响部分生命周期函数的执行
+- React 生命周期改版原因：[React Fiber](https://zhuanlan.zhihu.com/p/26027085?utm_source=wechat_session&utm_medium=social&utm_oi=41216360054784&wechatShare=1&s_r=0) 会影响部分生命周期函数的执行
 
 ### vscode插件
 
@@ -117,7 +117,7 @@ React 有十分强大的组合模式。我们推荐使用组合而非继承来�
 ## 进阶
 
 ### 组件跨层级通信-Context
-1. [官方文档](#https://react.docschina.org/docs/context.html)
+1. [官方文档](https://react.docschina.org/docs/context.html)
 2. 特点
     - Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法
     - 使用 context, 我们可以避免通过中间元素传递 props
@@ -173,7 +173,7 @@ React 有十分强大的组合模式。我们推荐使用组合而非继承来�
 		- 可以订阅多个context，传递给函数的value值等同于往上组件树离这个context最近的Provider提供的value值
 
 ### 高阶组件(HOC)
-1. [官方文档](#https://react.docschina.org/docs/higher-order-components.html)
+1. [官方文档](https://react.docschina.org/docs/higher-order-components.html)
 2. 特点
 	- 高阶组件不是一个组件，他是参数为组件，返回值为新组件的函数
 	- HOC是纯函数，没有副作用
@@ -213,8 +213,8 @@ React 有十分强大的组合模式。我们推荐使用组合而非继承来�
 ### HOOK
 > Hook 是 React 16.8 的新增特性。它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性。
 
-1. [官方文档](#https://zh-hans.reactjs.org/docs/hooks-intro.html)
-2. [HOOK API](#https://zh-hans.reactjs.org/docs/hooks-reference.html)
+1. [官方文档](https://zh-hans.reactjs.org/docs/hooks-intro.html)
+2. [HOOK API](https://zh-hans.reactjs.org/docs/hooks-reference.html)
 	- 基础HOOK
 		- `useState`
 		- `useEffect`
