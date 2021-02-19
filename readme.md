@@ -27,10 +27,11 @@
 * 网络安全
     - [HTTP/HTTPS](/basic/http/index.md)
     - [CORS](/basic/security/cors.md)
-    - Content  Security Policy
+    - [其他](/basic/security/other.md)
 * [包管理](/basic/package/index.md)
     - npm
     - yarn
+
 ### 前端
 * [HTML](/frontEnd/html/index.md)
 * [CSS](/frontEnd/css/index.md)
