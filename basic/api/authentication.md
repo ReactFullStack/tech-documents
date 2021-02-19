@@ -1,34 +1,241 @@
 # API
-* [Authentication](#Authentication)
-* [OAuth](#OAuth)
-* [Basic](#Basic)
-* [Token](#Token)
-    * [背景](#背景)
-    * [概念](#概念)
-    * [原理](#原理)
-    * [身份认证概述](#身份认证概述)
-    * [基于token机制的身份认证](#基于token机制的身份认证)
-    * [APP利用token机制进行身份认证](#APP利用token机制进行身份认证)
-    * [存储](#存储)
-    * [加密](#加密)
-    * [优势](#优势)
-    * [使用说明](#使用说明)
-* [JWT](#JWT)
-    * [JWT原理](#JWT原理)
-    * [数据结构](#数据结构)
-    * [使用](#使用)
-    * [几个特点](#几个特点)
-* [RESTFUL_API](#RESTFUL_API)
-    - [基本概念](#基本概念)
-    - [特征和优点](#特征和优点)
-    - [最佳实践](#最佳实践)
-* [常见问题](#常见问题)
-* [参考资料](#参考资料)  
+- [API](#api)
+  - [OAuth](#oauth)
+    - [什么是oauth](#什么是oauth)
+    - [背景](#背景)
+    - [中心组件](#中心组件)
+      - [1. OAuth Scopes](#1-oauth-scopes)
+      - [2. Actors](#2-actors)
+      - [3. Client](#3-client)
+      - [4. OAuth Tokens](#4-oauth-tokens)
+      - [5. OAuth有两个流程](#5-oauth有两个流程)
+      - [6. OAuth Flows](#6-oauth-flows)
+    - [安全性建议](#安全性建议)
+    - [OpenID](#openid)
+      - [基本概念](#基本概念)
+      - [OpenID Connect流程主要涉及如下几个步骤](#openid-connect流程主要涉及如下几个步骤)
+      - [OpenID Connect流程主要涉及如下几个步骤s](#openid-connect流程主要涉及如下几个步骤s)
+  - [Basic Authentication](#basic-authentication)
+    - [Http Basic 简介](#http-basic-简介)
+    - [背景](#背景-1)
+    - [认证过程](#认证过程)
+    - [原理](#原理)
+    - [优点](#优点)
+    - [缺点](#缺点)
+  - [Token Authentication](#token-authentication)
+    - [背景](#背景-2)
+    - [概念](#概念)
+    - [原理](#原理-1)
+    - [身份认证概述](#身份认证概述)
+    - [基于token机制的身份认证](#基于token机制的身份认证)
+    - [APP利用token机制进行身份认证](#app利用token机制进行身份认证)
+    - [存储](#存储)
+    - [加密](#加密)
+    - [优势](#优势)
+    - [使用说明](#使用说明)
+  - [JWT](#jwt)
+    - [JWT原理](#jwt原理)
+    - [数据结构](#数据结构)
+      - [1. Header](#1-header)
+      - [2. Payload](#2-payload)
+      - [3. Signature](#3-signature)
+      - [4. Base64URL](#4-base64url)
+    - [使用](#使用)
+    - [几个特点](#几个特点)
+  - [常见问题](#常见问题)
+  - [参考资料](#参考资料)
 
-## Authentication
 ## OAuth
-## Basic
-## Token
+
+- [理解OAuth 2.0](https://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html)
+
+### 什么是oauth
+
+OAuth 不是一个API或者服务，而是一个验证授权(Authorization)的开放标准，所有人都有基于这个标准实现自己的OAuth。
+
+更具体来说，OAuth是一个标准，app可以用来实现secure delegated access. OAuth基于HTTPS，以及APIs，Service应用使用access token来进行身份验证。
+
+OAuth主要有OAuth 1.0a和OAuth 2.0两个版本，并且二者完全不同，且不兼容。OAuth2.0 是目前广泛使用的版本，我们多数谈论OAuth时，为OAuth2.0。
+
+### 背景
+
+在OAuth之前，HTTP Basic Authentication, 即用户输入用户名，密码的形式进行验证, 这种形式是不安全的。OAuth的出现就是为了解决访问资源的安全性以及灵活性。OAuth使得第三方应用对资源的访问更加安全。
+
+### 中心组件
+
+OAuth 主要下面中心组件构成 (Central Components), 接下来会依次介绍如下这些组件。
+
+1. Scopes and Consent
+2. Actors
+3. Clients
+4. Tokens
+5. Authorization Server
+6. Flows
+
+#### 1. OAuth Scopes
+Scopes即Authorizaion时的一些请求权限，即与access token绑定在一起的一组权限。OAuth Scopes将授权策略（Authorization policy decision）与授权执行分离开来。并会很明确的表示OAuth Scopes将会获得的权限范围。
+
+#### 2. Actors
+OAuth的流程中，主要有如下四个角色。其关系如下图所示：
+
+    - Resource Owner: 用户拥有资源服务器上面的数据。例如：我是一名Facebook的用户，我拥有我的Facebook 个人简介的信息。
+    - Resource Server: 存储用户信息的API Service
+#### 3. Client
+想要访问用户的客户端
+    
+    - Authorization Server: OAuth的主要引擎，授权服务器，获取token。
+
+#### 4. OAuth Tokens
+    - Access token: 即客户端用来请求Resource Server(API). Access tokens通常是short-lived短暂的。access token是short-lived, 因此没有必要对它做revoke, 只需要等待access token过期即可。
+    - Refresh token: 当access token过期之后refresh token可以用来获取新的access token。refresh token是long-lived。refresh token可以被revoke。
+
+Token从Authorization server上的不同的endpoint获取。主要两个endpoint为authorize endpoint和token endpoint. authorize endpoint主要用来获得来自用户的许可和授权(consent and authorization)，并将用户的授权信息传递给token endpoint。token endpoint对用户的授权信息，处理之后返回access token和refresh token。 当access token过期之后，可以使用refresh token去请求token endpoint获取新的token。（开发者在开发endpoint时，需要维护token的状态，refresh token rotate）
+
+#### 5. OAuth有两个流程
+- 获取Authorization
+- 获取Token
+
+    - 这两个流程发送在不同的channel，Authorization发生在Front Channel（发生在用户浏览器）而Token发生在Back Channel。
+    - Front Channel: 客户端通过浏览器发送Authorization请求，由浏览器重定向到Authorization Server上的Authorization Endpoint，由Authorization Server返回对话框，并询问“是否允许这个应用获取如下权限”。Authorization通过结束后通过浏览器重定向到回调URL（Callback URL）。
+    - Back Channel: 获取Token之后，token应有由客户端应用程序使用，并与资源服务器（Resource Service）进行交互。
+
+- Front Channel
+
+```javascript
+
+Request:
+
+GET https://accounts.google.com/o/oauth2/auth?scope=gmail.insert gmail.send
+&redirect_uri=https://app.example.com/oauth2/callback
+&response_type=code&client_id=812741506391
+&state=af0ifjsldkj
+
+GET请求，指定了redirect_uri, 完成authorization之后，需要重定向到哪里。 response_type表明是用哪种OAuth flow进行验证。State为安全标志位，类似于XRSF，更多XRSF可以了解Cross-Site-Request-Forgery (跨站请求伪造)。
+
+Response:
+
+HTTP/1.1 302 Found
+Location: https://app.example.com/oauth2/callback?
+code=MsCeLvIaQm6bTrgtp7&state=af0ifjsldkj
+
+返回的code即表明，已经获得授权authorization grant. state用来保证不是伪造的请求，和request传入的保持一致。
+```
+- Back Channel
+
+```javascript
+Request:
+
+POST /oauth2/v3/token HTTP/1.1
+Host: www.googleapis.com
+Content-Type: application/x-www-form-urlencoded
+
+code=MsCeLvIaQm6bTrgtp7&client_id=812741506391&client_secret={client_secret}&redirect_uri=https://app.example.com/oauth2/callback&grant_type=authorization_code
+请求的参数，code即为上一步front channel所返回的code。
+
+Response:
+
+{
+  "access_token": "2YotnFZFEjr1zCsicMWpAA",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "tGzv3JOkF0XG5Qx2TlKWIA"
+}
+当获取到access token之后，就可以在Authorization header中使用token，进行对资源服务器的请求访问
+
+curl -H "Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA" \
+  https://www.googleapis.com/gmail/v1/users/1444587525/messages
+```
+
+#### 6. OAuth Flows
+- implicit flow: 也称之为 2 Legged OAuth 所有OAuth的过程都在浏览器中完成，且access token通过authorization request (front channel only) 直接返回。不支持refresh token。安全性不高。
+- Authorization code: 也称之为 3 Legged OAuth。使用front channel和back channel。front channel负责authorization code grant。back channel负责将authorization code换成（exchange）access token以及refresh token。
+- Client Credential flow: 对于server-to-server的场景。通常使用这种模式。在这种模式下要保证client secret不会被泄露。
+- Resource Owner Password Flow：类似于直接用户名，密码的模式，不推荐使用。
+
+### 安全性建议
+- 使用CSRF token。state参数保证整个流程的完整性
+- 重定向URL（redirect URIs）要在白名单内
+- 通过client ID将authorization grant和token request确保在同一个client上发生
+- 对于保密的client（confidential client），确保client secret不被泄露。不要将secret随代码一起发布
+
+### OpenID
+- OpenID Connect
+
+#### 基本概念
+OpenID Connect 是在OAuth2.0 协议基础上增加了身份验证层 （identity layer）。OAuth 2.0 定义了通过access token去获取请求资源的机制，但是没有定义提供用户身份信息的标准方法。OpenID Connect作为OAuth2.0的扩展，实现了Authentication的流程。OpenID Connect根据用户的 id_token 来验证用户，并获取用户的基本信息。
+
+id_token通常是JWT（Json Web Token），JWT有三部分组成，header，body，signature。header主要用来声明使用的算法，声明claim在body中，并且签名在signature中。OpenID Connection 在OAuth2.0 的基础上额外增加了UserInfo的Endpoint。id_token作为访问UserInfo Endpoint的凭证来获取用户的基本信息（profile，email，phone），并验证用户。
+
+#### OpenID Connect流程主要涉及如下几个步骤
+
+发现获取OIDC metadata
+1. 执行OAuth流程，获取id_token和access_token。例如：在 Authorization code模式下即为通过code来换取id_token和access_token。
+1. 获取JWT签名（signature key）并且可选的动态的注册客户端应用
+1. 基于日期签名来本地验证JWT id_token，或者将id_token发给后端backend进行验证
+1. 根据id_token通过UserInfo Endpoint获取用户信息，根据access_token获取用户其他资源信息
+
+#### OpenID Connect流程主要涉及如下几个步骤s
+
+## Basic Authentication
+
+- [基础知识](https://baike.baidu.com/item/Basic%20Auth/3097056)
+
+### Http Basic 简介
+- [概念](https://swagger.io/docs/specification/authentication/basic-authentication/)
+- 基本身份验证是HTTP协议中内置的一种简单身份验证方案。 客户端发送带有Authorization标头的HTTP请求，该标头包含单词Basic word，空格和以base64编码的字符串username：password
+
+```javascript
+Authorization: Basic ZGVtbzpwQDU1dzByZA==
+```
+
+### 背景
+
+- 在你访问一个需要HTTP Basic Authentication的URL的时候，如果你没有提供用户名和密码，服务器就会返回401，如果你直接在浏览器中打开，浏览器会提示你输入用户名和密码，也就是上面的图示。
+
+- 要在发送请求的时候添加HTTP Basic Authentication认证信息到请求中，有两种方法：  
+
+1. 在请求头中添加Authorization：  Authorization: "Basic 用户名和密码的base64加密字符串"  。
+2. 在url中添加用户名和密码。
+
+### 认证过程
+1. 客户端发送http request 给服务器,服务器验证该用户是否已经登录验证过了，如果没有的话，服务器会返回一个401 Unauthozied给客户端，并且在Response 的 header "WWW-Authenticate" 中添加信息
+2. 浏览器在接受到401 Unauthozied后，会弹出登录验证的对话框。用户输入用户名和密码后，浏览器用BASE64编码后，放在Authorization header中发送给服务器
+3. 服务器将Authorization header中的用户名密码取出，进行验证， 如果验证通过，将根据请求，发送资源给客户端，认证结束。
+    - 当request第一次到达服务器时，服务器没有认证的信息，服务器会返回一个401 Unauthozied给客户端。认证之后将认证信息放在session，以后在session有效期内就不用再认证了
+  
+```javascript
+HTTP Basic Authentication
+基础认证简单的使用base64对密码、用户名进行加密，并将加密后的信息放在Header中，本质上还是明文传输用户名、密码等，基本流程：
+客户端发起GET请求
+服务器响应401 Unauthorized，www-Authenticate指定认证算法，realm指定安全域
+客户端重新发起请求，Authorization指定用户名和密码信息
+服务器认证成功，响应200
+```
+
+### 原理
+在HTTP协议进行通信的过程中，HTTP协议定义了基本认证过程以允许HTTP服务器对WEB浏览器进行用户身份认证的方法，当一个客户端向HTTP服务 器进行数据请求时，
+
+如果客户端未被认证，则HTTP服务器将通过基本认证过程对客户端的用户名及密码进行验证，以决定用户是否合法。
+
+客户端在接收到HTTP服务器的身份认证要求后，会提示用户输入用户名及密码， 用户输入后，
+
+客户端将用户名和密码中间用“：”分隔合并，并将合并后的字符串用BASE64编码，在每次请求数据 时，将密文附加于请求头（Request Header）Authorization: Basic XXXXXXX中。
+
+HTTP服务器在每次收到请求包后，根据协议取得客户端附加的用户信息（BASE64编码的用户名和密码），解开请求包，对用户名及密码进行验证，
+
+如果用 户名及密码正确，则根据客户端请求，返回客户端所需要的数据;否则，返回错误代码或重新要求客户端提供用户名及密码。
+
+### 优点
+
+- 基本认证的一个优点是基本上所有流行的网页浏览器都支持基本认证。基本认证很少在可公开访问的互联网网站上使用，有时候会在小的私有系统中使用（如路由器网页管理接口）。后来的机制HTTP摘要认证是为替代基本认证而开发的，允许密钥以相对安全的方式在不安全的通道上传输。
+    
+- 程序员和系统管理员有时会在可信网络环境中使用基本认证，使用Telnet或其他明文网络协议工具手动地测试Web服务器。这是一个麻烦的过程，但是网络上传输的内容是人可读的，以便进行诊断。
+
+### 缺点
+- 虽然基本认证非常容易实现，但该方案创建在以下的假设的基础上，即：客户端和服务器主机之间的连接是安全可信的。特别是，如果没有使用SSL/TLS这样的传输层安全的协议，那么以明文传输的密钥和口令很容易被拦截。该方案也同样没有对服务器返回的信息提供保护。
+- 现存的浏览器保存认证信息直到标签页或浏览器被关闭，或者用户清除历史记录。HTTP没有为服务器提供一种方法指示客户端丢弃这些被缓存的密钥。这意味着服务器端在用户不关闭浏览器的情况下，并没有一种有效的方法来让用户注销
+
+## Token Authentication
 
 ### 背景
 - Token的引入
@@ -258,221 +465,17 @@ Authorization: Bearer <token>
 - JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。
 - 为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。
 
-## RESTFUL_API
-
-### 基本概念
-- [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful.html)
-- 全称：Representational State Transfer 
-    - 译文:表现层状态转化
-    - 如果一个架构符合REST原则，就称它为RESTful架构
-- 什么是RESTful架构：
-    - 每一个URI代表一种资源；
-    - 客户端和服务器之间，传递这种资源的某种表现层；
-    - 客户端通过四个HTTP动词，对服务器端资源进行操作，实现"表现层状态转化"。
-- RESTful架构有一些典型的设计误区
-    - 最常见的一种设计错误，就是URI包含动词。因为"资源"表示一种实体，所以应该是名词，URI不应该有动词，动词应该放在HTTP协议中。
-```
-// 1.1 错误设计
-/posts/show/1
-其中show是动词
-
-// 1.1 正确设计
-GET /posts/1
-用GET方法表示show
-
-// 1.2 错误设计
-POST /accounts/1/transfer/500/to/2
-如果某些动作是HTTP动词表示不了的，你就应该把动作做成一种资源。比如网上汇款，从账户1向账户2汇款500元，错误的URI是：
-
-// 1.2 正确设计
-POST /transaction?from=1&to=2&amount=500.00 HTTP/1.1
-Host: 127.0.0.1
-正确的写法是把动词transfer改成名词transaction，资源不能是动词，但是可以是一种服务
-```
-
-### 特征和优点
-
-1. 客户端-服务器（Client-Server）：提供服务的服务器和使用服务的客户端分离解耦；
-    - 提高客户端的便捷性（操作简单）
-    - 简化服务器提高可伸缩性（高性能、低成本）
-    - 允许客户端服务端分组优化，彼此不受影响
-
-2. 无状态（Stateless）：来自客户的每一个请求必须包含服务器处理该请求所需的所有信息（请求信息唯一性）；
-    - 提高可见性（可以单独考虑每个请求）
-    - 提高可靠性（更容易故障恢复）
-    - 提高了可扩展性（降低了服务器资源使用）
-
-3. 可缓存（Cachable）：服务器必须让客户端知道请求是否可以被缓存？如果可以，客户端可以重用之前的请求信息发送请求；
-    - 减少交互连接数
-    - 减少连接过程的网络时延
-
-4. 分层系统（Layered System）：允许服务器和客户端之间的中间层（代理，网关等）代替服务器对客户端的请求进行回应，而客户端不需要关心与它交互的组件之外的事情；
-    - 提高了系统的可扩展性
-    - 简化了系统的复杂性
-
-5. 统一接口（Uniform Interface）：客户和服务器之间通信的方法必须是统一化的。（例如：GET,POST,PUT.DELETE）
-    - 提高交互的可见性
-    - 鼓励单独优化改善组件
-
-6. 支持按需代码（Code-On-Demand，可选）：服务器可以提供一些代码或者脚本并在客户的运行环境中执行。
-    - 提高可扩展性
-
-### 最佳实践
-- [RESTful API 资源命名指南](http://restful.p2hp.com/home/resource-naming)
-- [RESTful API 设计指南](http://www.ruanyifeng.com/blog/2014/05/restful_api.html)
-##### 1. 协议
-- API与用户的通信协议，总是使用HTTPs协议。
-
-##### 2. 域名
-- 应该尽量将API部署在专用域名之下。
-        https://api.example.com
-- 如果确定API很简单，不会有进一步扩展，可以考虑放在主域名下。
-        https://example.org/api/
-
-##### 3. 版本（Versioning）
-- 应该将API的版本号放入URL。
-
-```html
-http://www.example.com/app/1.1/foo
-
-http://www.example.com/app/2.0/foo
-```
-- 另一种做法是将版本号放入HTTP头信息里，这样不如放入URL方便和直观，[Github](https://developer.github.com/v3/media/#request-specific-version)就采用了这种做法。
-    - 因为不同的版本，可以理解成同一种资源的不同表现形式，所以应该采用同一个URL。版本号可以在HTTP请求头信息的Accept字段中进行区分（参见[Versioning REST Services](http://www.informit.com/articles/article.aspx?p=1566460)）：
-
-```html
-Accept: vnd.example-com.foo+json; version=1.0
-
-Accept: vnd.example-com.foo+json; version=1.1
-
-Accept: vnd.example-com.foo+json; version=2.0
-```
-##### 4. 路径（Endpoint）
-- 路径又称"终点"（endpoint），表示API的具体网址。
-- 在RESTful架构中，每个网址代表一种资源（resource），所以网址中不能有动词，只能有名词，而且所用的名词往往与数据库的表格名对应。一般来说，数据库中的表都是同种记录的"集合"（collection），所以API中的名词也应该使用复数。
-
-##### 资源作为网址，只能有名词，不能有动词，而且所用的名词往往与数据库的表名对应
-```javascript
-举例来说，以下是不好的例子:
-
-/getProducts
-/listOrders
-/retreiveClientByOrder?orderId=1
-对于一个简洁结构，你应该始终用名词。 此外，利用的HTTP方法可以分离网址中的资源名称的操作。
-
-GET /products ：返回所有产品清单
-POST /products ：添加一个产品
-GET /products/4 ：获取产品 4
-PATCH（或）PUT /products/4 ：更新产品 4
-```
-##### API中的名词应该使用复数。无论子资源或者所有资源 举例来说，获取产品的API可以这样定义
-```
-获取单个产品：http://127.0.0.1:8080/AppName/rest/products/1
-获取所有产品: http://127.0.0.1:8080/AppName/rest/products
-```
-
-##### 5. HTTP动词
-- 对于资源的具体操作类型，由HTTP动词表示。
-- 常用的HTTP动词有下面五个（括号里是对应的SQL命令）。
-    - GET（SELECT）：从服务器取出资源（一项或多项）。
-    - POST（CREATE）：在服务器新建一个资源。
-    - PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。
-    - PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）。
-    - DELETE（DELETE）：从服务器删除资源。
-- 还有三个不常用的HTTP动词。
-    - PATCH（UPDATE）：在服务器更新(更新)资源（客户端提供改变的属性）。
-    - HEAD：获取资源的元数据。
-    - OPTIONS：获取信息，关于资源的哪些属性是客户端可以改变的
-
-```javascript
-下面是一些例子。
-
-GET /zoos：列出所有动物园
-POST /zoos：新建一个动物园
-GET /zoos/ID：获取某个指定动物园的信息
-PUT /zoos/ID：更新某个指定动物园的信息（提供该动物园的全部信息）
-PATCH /zoos/ID：更新某个指定动物园的信息（提供该动物园的部分信息）
-DELETE /zoos/ID：删除某个动物园
-GET /zoos/ID/animals：列出某个指定动物园的所有动物
-DELETE /zoos/ID/animals/ID：删除某个指定动物园的指定动物
-```
-
-##### 6. 过滤信息（Filtering）
-- 如果记录数量很多，服务器不可能都将它们返回给用户。API应该提供参数，过滤返回结果。
-- query_string 查询字符串,地址栏后面问号后面的数据,格式: name=xx&sss=xxx
-- 参数的设计允许存在冗余，即允许API路径和URL参数偶尔有重复。比如，GET /zoos/ID/animals 与 GET /animals?zoo_id=ID 的含义是相同的。
-```javascript
-下面是一些常见的参数。
-
-?limit=10：指定返回记录的数量
-?offset=10：指定返回记录的开始位置。
-?page=2&per_page=100：指定第几页，以及每页的记录数。
-?sortby=name&order=asc：指定返回结果按照哪个属性排序，以及排序顺序。
-?animal_type_id=1：指定筛选条件
-参数的设计允许存在冗余，即允许API路径和URL参数偶尔有重复。比如，GET /zoo/ID/animals 与 GET /animals?zoo_id=ID 的含义是相同的。
-
-```
-##### 7. 状态码（Status Codes）
-- 服务器向用户返回的状态码和提示信息，常见的有以下一些（方括号中是该状态码对应的HTTP动词）。
-
-```javascript
-200 OK - [GET]：服务器成功返回用户请求的数据，该操作是幂等的（Idempotent）。
-201 CREATED - [POST/PUT/PATCH]：用户新建或修改数据成功。
-202 Accepted - [*]：表示一个请求已经进入后台排队（异步任务）
-204 NO CONTENT - [DELETE]：用户删除数据成功。
-400 INVALID REQUEST - [POST/PUT/PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作，该操作是幂等的。
-401 Unauthorized - [*]：表示用户没有权限（令牌、用户名、密码错误）。
-403 Forbidden - [*] 表示用户得到授权（与401错误相对），但是访问是被禁止的。
-404 NOT FOUND - [*]：用户发出的请求针对的是不存在的记录，服务器没有进行操作，该操作是幂等的。
-406 Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）。
-410 Gone -[GET]：用户请求的资源被永久删除，且不会再得到的。
-422 Unprocesable entity - [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误。
-500 INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功。
-状态码的完全列表参见这里。
-```
-
-##### 8. 错误处理（Error handling）
-- 如果状态码是4xx，就应该向用户返回出错信息。一般来说，返回的信息中将error作为键名，出错信息作为键值即可。
-
-```javascript
-{
-    error: "Invalid API key"
-}
-```
-##### 9. 返回结果
-- 针对不同操作，服务器向用户返回的结果应该符合以下规范。
-    - GET /collection：返回资源对象的列表（数组）
-    - GET /collection/resource：返回单个资源对象
-    - POST /collection：返回新生成的资源对象
-    - PUT /collection/resource：返回完整的资源对象
-    - PATCH /collection/resource：返回完整的资源对象
-    - DELETE /collection/resource：返回一个空文档
-
-##### 10. 超媒体（Hypermedia API）
-- RESTful API最好做到Hypermedia（即返回结果中提供链接，连向其他API方法），使得用户不查文档，也知道下一步应该做什么。
-
-```javascript
-比如，Github的API就是这种设计，访问api.github.com会得到一个所有可用API的网址列表。
-
-{
-"current_user_url": "https://api.github.com/user",
-"authorizations_url": "https://api.github.com/authorizations",
-// ...
-}
-
-从上面可以看到，如果想获取当前用户的信息，应该去访问api.github.com/user，然后就得到了下面结果。
-
-{
-  "message": "Requires authentication",
-  "documentation_url": "https://developer.github.com/v3"
-}
-
-上面代码表示，服务器给出了提示信息，以及文档的网址。
-```
 
 ## 常见问题
 
+- [OpenID 和 OAuth 有什么区别？](https://www.zhihu.com/question/19628327)
+- [认证、授权和凭证区别](https://insights.thoughtworks.cn/api-2/)
+
 ## 参考资料
-- [理解RESTful架构 - 阮一峰](http://www.ruanyifeng.com/blog/2011/09/restful.html)
-- [什么是REST](http://restful.p2hp.com/)
+- [oauth2 官网](https://oauth.net/2/)
+- [OpenID Connect 协议入门指南](https://www.jianshu.com/p/be7cc032a4e9)
 - [理解OAuth 2.0](http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html)
+- [OAuth2.0 详解](https://zhuanlan.zhihu.com/p/89020647)
+- [OAuth](http://en.wikipedia.org/wiki/OAuth)
+- [学习文档](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols)
+- [简单流程图](https://www.cnblogs.com/flashsun/p/7424071.html)
