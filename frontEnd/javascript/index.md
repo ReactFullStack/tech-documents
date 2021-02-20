@@ -84,7 +84,7 @@
 - [问答](https://blog.csdn.net/swallowblank/article/details/90703030?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-6&spm=1001.2101.3001.4242)
 
 ## 参考资料
-- [菜鸟教程](https://www.runoob.com//-tutorial.html)
+- [菜鸟教程](https://www.runoob.com/js/js-tutorial.html)
 - [W3C](https://www.w3cschool.cn/javascript/)
 - [廖雪峰](https://www.liaoxuefeng.com/wiki/1022910821149312)
 - [思维导图地址1](https://blog.csdn.net/robin_star_/article/details/78719658)
