@@ -77,9 +77,12 @@
 
 4. 表单提交的方式
  - 1.无刷新页面提交表单
-   ```javascript
-    //表单可实现无刷新页面提交，无需页面跳转，如下，通过一个隐藏的iframe实现，form表单的target设置为iframe的name名称，
-    // form提交目标位当前页面iframe则不会刷新页面
+   ```html
+    <!--
+      表单可实现无刷新页面提交，无需页面跳转，如下，通过一个隐藏的iframe实现，form表单的target设置为iframe的name名称。
+
+      form提交目标位当前页面iframe则不会刷新页面。
+    -->
 
     <form action="/url.do" method="post" target="targetIfr">
       <input type="text" name="name"/>
@@ -88,8 +91,10 @@
    ```
 
  - 2.通过type=submit提交
-   ```javascript
-      //一般表单提交通过type=submit实现，input type=“submit”,浏览器显示为button按钮，通过点击这个按钮提交表单数据跳转到/url.do
+   ```html
+      <!--
+        一般表单提交通过type=submit实现，input type=“submit”,浏览器显示为button按钮，通过点击这个按钮提交表单数据跳转到/url.do
+      -->
 
         <form action="/url.do" method="post">
           <input type="text" name="name"/>
@@ -98,27 +103,33 @@
     ```
 
  - 3.js提交form表单
-   ```javascript
-    //js事件触发表单提交，通过button、链接等触发事件，js调用submit()方法提交表单数据，jquery通过submit()方法
-    // html
+   ```html
+   <!--
+     js事件触发表单提交，通过button、链接等触发事件，js调用submit()方法提交表单数据，jquery通过submit()方法
+    -->
     <form id="form" action="/url.do" method="post">
       <input type="text" name="name"/>
     </form>
+   ```
 
-    //js: 
+   ```js
     document.getElementById("form").submit();
    ```
  
  - 4.ajax异步提交表单数据(重点)
-   ```javascript
-    //采用ajax异步方式，通过js获取form中所有input、select等组件的值，将这些值组成Json格式，通过异步的方式与服务器端进行交互，
-    // 一般将表单数据传送给服务器端，服务器端处理数据并返回结果信息等
-    // html
+   ```html
+   <!--
+    采用ajax异步方式，通过js获取form中所有input、select等组件的值，将这些值组成Json格式，通过异步的方式与服务器端进行交互，
+    
+    一般将表单数据传送给服务器端，服务器端处理数据并返回结果信息等
+   -->
     <form id="form"  method="post">
       <input type="text" name="name" id="name"/>
     </form>
-    // js
-      var params = {"name", $("#name").val()}
+   ```
+
+   ```js
+    var params = {"name", $("#name").val()}
     $.ajax({
           type: "POST",
           url: "/url.do",
@@ -126,19 +137,20 @@
           dataType : "json",
           success: function(respMsg){
           }
-      });
-
+    });
    ```
  
  - 5.form表单上传文件
-   ```javascript
-      // 使用form表单进行上传文件需要为form添加enctype=“multipart/form-data” 属性，除此之外还需要将表单的提交方法改成post,
-      // 如下 method=“post”, input type的类型需要设置为file
-
-      <form action="/url.do" enctype="multipart/form-data" method="post">
-          <input type="file" name="name"/>
-          <input type="submit" value="提交">
-      </form>
+   ```html
+   <!--
+      使用form表单进行上传文件需要为form添加enctype=“multipart/form-data” 属性，除此之外还需要将表单的提交方法改成post,
+      
+      如下 method=“post”, input type的类型需要设置为file
+   -->
+    <form action="/url.do" enctype="multipart/form-data" method="post">
+        <input type="file" name="name"/>
+        <input type="submit" value="提交">
+    </form>
     ```
  
 5. [常见验证方式](https://www.jb51.net/article/118265.htm)
