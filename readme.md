@@ -2,7 +2,7 @@
 
 ### 基础知识
 * [Git](/basic/git/index.md)
-* 数据结构和算法
+* [数据结构和算法](/basic/dataStructure/index.md)
 * [设计模式](/basic/designPattern/index.md)
 * Internet
     - [网络基本原理](/basic/internet/basic.md)
@@ -35,7 +35,7 @@
 ### 前端
 * [HTML](/frontEnd/html/index.md)
 * [CSS](/frontEnd/css/index.md)
-* JavaScript
+* [JavaScript](/frontEnd/javascript/index.md)
 * [CSS预处理](/frontEnd/css预处理/index.md)
 * 项目构建
     - [npm-scripts](/frontEnd/项目构建/npm-scripts.md)
