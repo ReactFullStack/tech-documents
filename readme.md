@@ -20,10 +20,7 @@
     - 架构
         * [微服务](/basic/designThinking/architecture/microService/index.md)
         * [Serverless](/basic/designThinking/architecture/serverless/index.md)
-    - SOLID
-    - KISS
-    - YAGNI
-    - DRY
+    - [SOLID，KISS，YAGNI，DRY](/basic/designThinking/others/index.md)
 * 网络安全
     - [HTTP/HTTPS](/basic/http/index.md)
     - [CORS](/basic/security/cors.md)
