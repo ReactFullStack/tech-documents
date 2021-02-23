@@ -12,6 +12,7 @@
   - [组件跨层级通信-Context](#组件跨层级通信-Context)
   - [高阶组件(HOC)](#高阶组件(HOC))
   - [HOOK](#HOOK)
+* [常见问题](#常见问题)
 
 ## 基础概念
 
@@ -227,3 +228,18 @@ React 有十分强大的组合模式。我们推荐使用组合而非继承来�
 		- `useImperativeHandle`
 		- `useLayoutEffect`
 		- `useDebugValue`
+
+### 常见问题
+
+1. [简述react diff](https://zhuanlan.zhihu.com/p/20346379)
+2. 简述 Virtual DOM 的工作原理
+- Virtual DOM 是一个轻量级的 JavaScript 对象，它最初只是 real DOM 的副本。它是一个节点树，它将元素、它们的属性和内容作为对象及其属性。 React 的渲染函数从 React 组件中创建一个节点树。然后它响应数据模型中的变化来更新该树，该变化是由用户或系统完成的各种动作引起的。
+- Virtual DOM 工作过程有三个简单的步骤。
+
+	- 每当底层数据发生改变时，整个 UI 都将在 Virtual DOM 描述中重新渲染。
+	![image](./img/v1.bmp)
+	- 然后计算之前 DOM 表示与新表示的之间的差异。
+	![image](./img/v2.bmp)
+	- 完成计算后，将只用实际更改的内容更新 real DOM。
+	![image](./img/v3.bmp)
+

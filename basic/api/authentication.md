@@ -14,7 +14,6 @@
     - [OpenID](#openid)
       - [基本概念](#基本概念)
       - [OpenID Connect流程主要涉及如下几个步骤](#openid-connect流程主要涉及如下几个步骤)
-      - [OpenID Connect流程主要涉及如下几个步骤s](#openid-connect流程主要涉及如下几个步骤s)
   - [Basic Authentication](#basic-authentication)
     - [Http Basic 简介](#http-basic-简介)
     - [背景](#背景-1)
@@ -173,8 +172,6 @@ id_token通常是JWT（Json Web Token），JWT有三部分组成，header，body
 1. 获取JWT签名（signature key）并且可选的动态的注册客户端应用
 1. 基于日期签名来本地验证JWT id_token，或者将id_token发给后端backend进行验证
 1. 根据id_token通过UserInfo Endpoint获取用户信息，根据access_token获取用户其他资源信息
-
-#### OpenID Connect流程主要涉及如下几个步骤s
 
 ## Basic Authentication
 
