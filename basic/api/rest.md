@@ -1,11 +1,11 @@
-* [RESTFUL_API](#RESTFUL_API)
-    - [基本概念](#基本概念)
-    - [特征和优点](#特征和优点)
-    - [最佳实践](#最佳实践)
-  - [常见问题](#常见问题)
-  - [参考资料](#参考资料)
+# RESTFUL API
+* [基本概念](#基本概念)
+* [特征和优点](#特征和优点)
+* [最佳实践](#最佳实践)
+* [常见问题](#常见问题)
+* [参考资料](#参考资料)
 
-### 基本概念
+## 基本概念
 - [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful.html)
 - 全称：Representational State Transfer 
     - 译文:表现层状态转化
@@ -35,7 +35,7 @@ Host: 127.0.0.1
 正确的写法是把动词transfer改成名词transaction，资源不能是动词，但是可以是一种服务
 ```
 
-### 特征和优点
+## 特征和优点
 
 1. 客户端-服务器（Client-Server）：提供服务的服务器和使用服务的客户端分离解耦；
     - 提高客户端的便捷性（操作简单）
@@ -62,7 +62,7 @@ Host: 127.0.0.1
 6. 支持按需代码（Code-On-Demand，可选）：服务器可以提供一些代码或者脚本并在客户的运行环境中执行。
     - 提高可扩展性
 
-### 最佳实践
+## 最佳实践
 - [RESTful API 资源命名指南](http://restful.p2hp.com/home/resource-naming)
 - [RESTful API 设计指南](http://www.ruanyifeng.com/blog/2014/05/restful_api.html)
 ##### 1. 协议
