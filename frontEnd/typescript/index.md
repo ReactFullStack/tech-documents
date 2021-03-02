@@ -155,10 +155,6 @@ https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.htm
     interface LabelledValue {
         label?: string
     }
-    
-    let myObj: LabelledValue = {label: "Size 10 Object"};
-    // or
-    let myObj: LabelledValue = {};
     ```
 
 2. 只读属性
@@ -168,9 +164,6 @@ https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.htm
     interface LabelledValue {
         readonly size: number
     }
-
-    let myObj: LabelledValue = {size: 10};
-    myObj.size = 20; // Error, 只读属性第一次被赋值后， 就再也不能被改变了。
     ```
 
 3. 函数类型
@@ -179,20 +172,6 @@ https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.htm
     ```typescript
     interface SearchFunc {
         (source: string, subString: string): boolean;
-    }
-    
-    let mySearch: SearchFunc = function(source: string, subString: string) {
-        let result = source.search(subString);
-        return result > -1;
-    }
-    ```
-
-    注意： ==函数的参数名不需要与接口里定义的名字相匹配==
-
-    ```typescript
-    let mySearch = function(src: string, sub: string): boolean {
-      let result = src.search(sub);
-      return result > -1;
     }
     ```
 
@@ -205,8 +184,6 @@ https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.htm
     interface StringArray {
         [index: number]: string;
     }
-    
-    let myArray: StringArray = ["Bob", "Fred"];
     ```
 
 5. 类类型
@@ -238,10 +215,6 @@ https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.htm
     interface Square extends Shape {
         sideLength: number;
     }
-    
-    let square = <Square>{};
-    square.color = "blue";
-    square.sideLength = 10;
     ```
 7. 接口继承类
     ```typescript
@@ -256,11 +229,6 @@ https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.htm
     class Button extends Control implements SelectableControl {
         select() { }
     }
-    
-    // 错误：“Image”类型缺少“state”属性。
-    class Image implements SelectableControl {
-        select() { }
-    }
     ```
 
 ### 类
@@ -271,40 +239,6 @@ https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.htm
 - protected：protected成员在派生类中仍然可以访问
 - readonly：只读属性必须在声明时或构造函数里被初始化
 - 静态属性：使用static，想要访问这个属性的时候，都要在 origin前面加上类名
-
-```typescript
-class Parent {
-    public name: string;
-    private age: number;
-    protected sex: string;
-    
-    constructor(name: string, age: number, sex: string) { 
-        this.name = name;
-        this.age = age; 
-        this.sex = sex;
-    }
-}
-
-class Animal extends Parent {
-    readonly numberOfLegs: number;
-    static origin = {x: 0, y: 0};
-    
-    constructor(name: string, age: number, sex: string, numberOfLegs) { 
-       super(name, age, sex);
-       this.numberOfLegs = numberOfLegs;
-    }
-    
-    getElevatorPitch() {
-        return `Hello, my name is ${this.name} and I work in ${this.department}.`;
-    }
-}
-
-const animal = new Animal("Cat", 20, 'boy', 8);
-animal.name; 
-animal.age; // Error: 'age' 是私有的.
-animal.sex; // Error
-animal.numberOfLegs = 3; // Error
-```
 
 ### 函数
 
@@ -320,28 +254,15 @@ animal.numberOfLegs = 3; // Error
 
 2. 可选参数
     ```typescript
-    function buildName(firstName: string, lastName?: string) {
-    return firstName;
-    }
-
-    let employeeName = buildName("Joseph", "Samuel");
+    function buildName(firstName: string, lastName?: string) {}
     ```
 3. 默认参数
     ```typescript
-    function buildName(firstName: string = 'Joseph') {
-    return firstName;
-    }
-
-    let employeeName1 = buildName();
-    let employeeName2 = buildName('Samuel');
+    function buildName(firstName: string = 'Joseph') {}
     ```
 4. 剩余参数
     ```typescript
-    function buildName(firstName: string, ...restOfName: string[]) {
-    return firstName + " " + restOfName.join(" ");
-    }
-
-    let employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+    function buildName(firstName: string, ...restOfName: string[]) {}
     ```
 
 ### 泛型
@@ -349,9 +270,7 @@ animal.numberOfLegs = 3; // Error
 
 1. 泛型变量
     ```typescript
-    function identity<T>(arg: T): T {
-        return arg;
-    }
+    function identity<T>(arg: T): T {}
     ```
 2. 泛型类
     ```typescript
@@ -359,10 +278,6 @@ animal.numberOfLegs = 3; // Error
         zeroValue: T;
         add: (x: T, y: T) => T;
     }
-
-    let myGenericNumber = new GenericNumber<number>();
-    myGenericNumber.zeroValue = 0;
-    myGenericNumber.add = function(x, y) { return x + y; };
     ```
 
 ### 枚举
@@ -374,61 +289,18 @@ enum Response {
     Yes = 1,
 }
 
-function respond(recipient: string, message: Response): void {
-    // ...
-}
+function respond(recipient: string, message: Response): void {}
 
 respond("Princess Caroline", Response.Yes)
 ```
 
 1. 枚举
     - 数字枚举: 第一个成员的默认值为0，其他的成员从第一个成员的值开始自动增长
-    
-    ```typescript
-    enum Direction {
-        Up = 1,
-        Down,
-        Left,
-        Right
-    }
-    ```
-    
     - 字符串枚举
-    
-    ```typescript
-    enum Direction {
-        Up = "UP",
-        Down = "DOWN",
-        Left = "LEFT",
-        Right = "RIGHT",
-    }
-    ```
-    
     - 异构枚举
-
-    ```typescript
-    enum BooleanLikeHeterogeneousEnum {
-        No = 0,
-        Yes = "YES",
-    }
-    ```
 2. 外部枚举
     > 使用declare
-    ```typescript
-    declare enum Enum {
-        A = 1,
-        B,
-        C = 2
-    }
-    ```
 3. 反向映射
-    ```typescript
-    enum Enum {
-        A
-    }
-    let a = Enum.A;
-    let nameOfA = Enum[a]; // "A"
-    ```
 
 ### 高级类型
 
@@ -436,21 +308,15 @@ respond("Princess Caroline", Response.Yes)
     > 将多个类型合并为一个类型
     
     ```typescript
-    function extend<T, U>(first: T, second: U): T & U {
-        // ...
-    }
+    function extend<T, U>(first: T, second: U): T & U {}
     ```
     
 2. 联合类型
     > 满足其中一个类型
 
     ```typescript
-    function padLeft(value: string, padding: string | number) {
-        // ...
-    }
+    function padLeft(value: string, padding: string | number) {}
     ```
-    
-    - ==如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员==
     
 3. 类型别名
     > 给一个类型起个新名字. 它可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。起别名不会新建一个类型, 它创建了一个新名字来引用那个类型。 
@@ -458,24 +324,9 @@ respond("Princess Caroline", Response.Yes)
     ```typescript
     type Name = string;
     type NameResolver = () => string;
-    type NameOrResolver = Name | NameResolver;
-    function getName(n: NameOrResolver): Name {
-        if (typeof n === 'string') {
-            return n;
-        }
-        else {
-            return n();
-        }
-    }
-    type Container<T> = { value: T };
+    type NameOrResolver = Name | NameResolver
     ```
     
-    - 注意: ==类型别名不能出现在声明右侧的任何地方==
-    
-    ```typescript
-    type Yikes = Array<Yikes>; // error
-    ```
-
 ### 模块
 
 1. 导出: export
@@ -546,100 +397,11 @@ https://www.tslang.cn/docs/handbook/module-resolution.html
     - 对模块使用/// <reference>
     - 不必要的命名空间
 
-### 声明合并
+### [声明合并](https://www.tslang.cn/docs/handbook/declaration-merging.html)
 
-#### 接口合并
-    
-```typescript
-interface Cloner {
-    clone(animal: Animal): Animal;
-}
-
-interface Cloner {
-    clone(animal: Sheep): Sheep;
-}
-
-interface Cloner {
-    clone(animal: Dog): Dog;
-    clone(animal: Cat): Cat;
-}
-
-// 合并后
-interface Cloner {
-    clone(animal: Dog): Dog;
-    clone(animal: Cat): Cat;
-    clone(animal: Sheep): Sheep;
-    clone(animal: Animal): Animal;
-}
-
-```
-    
- + ==注意==
-    - 接口的非函数的成员应该是唯一的。如果它们不是唯一的，那么它们必须是相同的类型。如果两个接口中同时声明了同名的非函数成员且它们的类型不同，则编译器会报错==
-    - 每组接口里的声明顺序保持不变，但各组接口之间的顺序是后来的接口重载出现在靠前位置
-    - 当出现特殊的函数签名时。 如果签名里有一个参数的类型是 单一的字符串字面量（比如，不是字符串字面量的联合类型），那么它将会被提升到重载列表的最顶端
-    
-```typescript
-interface Document {
-    createElement(tagName: any): Element;
-}
-interface Document {
-    createElement(tagName: "div"): HTMLDivElement;
-    createElement(tagName: "span"): HTMLSpanElement;
-}
-interface Document {
-    createElement(tagName: string): HTMLElement;
-    createElement(tagName: "canvas"): HTMLCanvasElement;
-}
-
-// 合并后
-interface Document {
-    createElement(tagName: "canvas"): HTMLCanvasElement;
-    createElement(tagName: "div"): HTMLDivElement;
-    createElement(tagName: "span"): HTMLSpanElement;
-    createElement(tagName: string): HTMLElement;
-    createElement(tagName: any): Element;
-}
-```
-    
-#### 命名空间合并
-
-```typescript
-namespace Animals {
-    export class Zebra { }
-}
-
-namespace Animals {
-    export interface Legged { numberOfLegs: number; }
-    export class Dog { }
-}
-
-// 合并后
-namespace Animals {
-    export interface Legged { numberOfLegs: number; }
-
-    export class Zebra { }
-    export class Dog { }
-}
-```
-
-注意:  ==非导出成员仅在其原有的（合并前的）命名空间内可见。这就是说合并之后，从其它命名空间合并进来的成员无法访问非导出成员==
-
-```typescript
-namespace Animal {
-    let haveMuscles = true;
-
-    export function animalsHaveMuscles() {
-        return haveMuscles;
-    }
-}
-
-namespace Animal {
-    export function doAnimalsHaveMuscles() {
-        return haveMuscles;  // Error, because haveMuscles is not accessible here
-    }
-}
-```
+1. 接口合并
+2. 命名空间合并
+3. 命名空间与类和函数和枚举类型合并
 
 ### 装饰器
 > 为我们在类的声明及成员上通过元编程语法添加标注提供了一种方式
@@ -657,28 +419,15 @@ namespace Animal {
 }
 ```
 
-#### 装饰器
+#### [装饰器](https://www.tslang.cn/docs/handbook/decorators.html)
 
 1. 装饰器工厂
     > 返回一个表达式，以供装饰器在运行时调用
 
-    ```typescript
-    function color(value: string) { // 这是一个装饰器工厂
-        return function (target) { //  这是装饰器
-            // do something with "target" and "value"...
-        }
-    }
-    ```
-
 2. 装饰器组合
     > 多个装饰器可以同时应用到一个声明上
 
-    ```typescript
-    @f @g x
-    ```
-
 3. 装饰器求值
-
 
     类中不同声明上的装饰器将按以下规定的顺序应用:
     1. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个实例成员。
@@ -689,80 +438,22 @@ namespace Animal {
 4. 类装饰器
     > 在类声明之前被声明（紧靠着类声明）。 类装饰器应用于类构造函数，可以用来监视，修改或替换类定义
 
-    ```typescript
-    @sealed
-    class Greeter {
-
-    }
-    ```
-
 5. 方法装饰器
     > 声明在一个方法的声明之前（紧靠着方法声明）。 它会被应用到方法的 属性描述符上，可以用来监视，修改或者替换方法定义
-
-    ```typescript
-    class Greeter {
-        greeting: string;
-        constructor(message: string) {
-            this.greeting = message;
-        }
-
-        @enumerable(false)
-        greet() {
-            return "Hello, " + this.greeting;
-        }
-    }
-    ```
 
 6. 访问器装饰器
     > 声明在一个访问器的声明之前（紧靠着访问器声明）。 访问器装饰器应用于访问器的 属性描述符并且可以用来监视，修改或替换一个访问器的定义
 
-    ```typescript
-    class Point {
-        private _x: number;
-        constructor(x: number) {
-            this._x = x;
-        }
-
-        @configurable(false)
-        get x() { return this._x; }
-    }
-    ```
-
 7. 属性装饰器
     > 声明在一个属性声明之前（紧靠着属性声明）
-
-    ```typescript
-    class Greeter {
-        @format("Hello, %s")
-        greeting: string;
-
-        constructor(message: string) {
-            this.greeting = message;
-        }
-    }
-    ```
 
 8. 参数装饰器
     > 声明在一个参数声明之前（紧靠着参数声明）。 参数装饰器应用于类构造函数或方法声明
 
-    ```typescript
-    class Greeter {
-        greeting: string;
 
-        constructor(message: string) {
-            this.greeting = message;
-        }
-
-        @validate
-        greet(@required name: string) {
-            return "Hello " + name + ", " + this.greeting;
-        }
-    }
-    ```
-### Mixins
+### [Mixins](https://www.tslang.cn/docs/handbook/mixins.html)
     mixins是面向对象编程里比较重要的概念，根据功能定义多个可复用mixins类，使子类能够继承根据功能继承需要的mixins。scala里的trait即实现了混入并且应用广泛。typescript原生不支持混入，但可通过语法组合实现。
 
-https://www.tslang.cn/docs/handbook/mixins.html
 
 ### 三斜线指令
     三斜线指令是包含单个XML标签的单行注释。 注释的内容会做为编译器指令使用。
@@ -774,13 +465,9 @@ https://www.tslang.cn/docs/handbook/mixins.html
 3. `/// <reference no-default-lib="true"/>`: 把一个文件标记成默认库
 4. `/// <amd-module />`: 允许给编译器传入一个可选的模块名
 
-### Javascript文件类型检查
+### [Javascript文件类型检查](https://www.tslang.cn/docs/handbook/type-checking-javascript-files.html)
 
-https://www.tslang.cn/docs/handbook/type-checking-javascript-files.html
-
-## 规范
-
-https://www.tslang.cn/docs/handbook/declaration-files/do-s-and-don-ts.html
+## [规范](https://www.tslang.cn/docs/handbook/declaration-files/do-s-and-don-ts.html)
 
 ## 常见问题
 1. [TS 中的 never 类型具体有什么用?](https://cloud.tencent.com/developer/article/1594872)
@@ -852,14 +539,14 @@ https://www.tslang.cn/docs/handbook/declaration-files/do-s-and-don-ts.html
 
     2：变量 as 类型 （在tsx中只能使用这种方式）
 
-9. Typescript 4.0新增变化
+9. [Typescript 4.0新增变化](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-0.html)
 
-    https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-0.html
-
-10. Typescript 4.1新增变化
-
-    https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html
+10. [Typescript 4.1新增变化](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html)
     
 ## 参考资料
 
 1. [官方文档](https://www.tslang.cn/docs/handbook/basic-types.html)
+
+## 图示总结
+
+![image](01.png)
