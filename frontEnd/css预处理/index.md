@@ -3,6 +3,7 @@
 * [基础](#基础)
 * [CSS预处理器](#CSS预处理器)
 * [预处理器的优缺点](#预处理器的优缺点)
+* [常见问题](#常见问题)
 
 ## 基础
  - 概念
@@ -92,3 +93,7 @@
 ```
   postcss 既不是 预处理器也不是 后处理器，其功能比较广泛，而且重要的一点是，postcss可以和less/sass结合使用
 ```
+
+# 常见问题
+- [Scss 与 Sass 是什么,他们的区别在哪里？](https://www.cnblogs.com/jeacy/p/9776479.html)
+- [Sass/Scss与Less的区别](https://www.cnblogs.com/wangpenghui522/p/5467560.html)
