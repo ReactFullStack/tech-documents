@@ -9,6 +9,8 @@
   - [生命周期](#生命周期)
   - [vscode插件](#vscode插件)
 * [进阶](#进阶)
+  - [Refs](#Refs)
+  - [Refs转发](#Refs转发)
   - [组件跨层级通信-Context](#组件跨层级通信-Context)
   - [高阶组件(HOC)](#高阶组件(HOC))
   - [HOOK](#HOOK)
@@ -116,6 +118,46 @@ React 有十分强大的组合模式。我们推荐使用组合而非继承来�
 1. Simple React Snippets:快速生成模版代码
 
 ## 进阶
+
+### Refs
+>Refs 提供了一种方式，允许我们访问 DOM 节点或在 render 方法中创建的 React 元素。
+
+1. 作用对象
+	```js
+	this.myRef = React.createRef()
+
+	// const ref = useRef()
+	```
+	- HTML
+	```html
+	<div ref={this.myRef}></div>
+	```
+	- class组件
+	```html
+	<ClassComponent ref={this.myRef}></ClassComponent>
+	```
+	**不能作用于函数组件，但可以在函数组件中使用**
+
+2. 访问ref对象
+	```js
+	const node = this.myRef.current
+	```
+	- 作用于HTML，接收底层DOM
+	- 作用于组件，接收组件实例
+	
+### Refs转发
+>Ref 转发是一个可选特性，其允许某些组件接收 ref，并将其向下传递（换句话说，“转发”它）给子组件。
+```js
+const FancyButton = React.forwardRef((props, ref) => (
+	<button ref={ref} className="FancyButton">
+		{props.children}
+	</button>
+));
+
+// 你可以直接获取 DOM button 的 ref：
+const ref = React.createRef();
+<FancyButton ref={ref}>Click me!</FancyButton>;
+```
 
 ### 组件跨层级通信-Context
 1. [官方文档](https://react.docschina.org/docs/context.html)
